@@ -39,6 +39,7 @@ namespace MintAnimation {
         {
             _nowTime = 0;
             _isPause = true;
+            if (AnimationInfo.AutoStartValue) AnimationInfo.SetStartValue<T>(_getter.Invoke());
             register();
         }
 

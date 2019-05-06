@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MintAnimation {
 
-    [SerializeField]
+    [System.Serializable]
     public class MintAnimationInfo
     {
         public float                Duration = 0.35f;
@@ -18,10 +18,10 @@ namespace MintAnimation {
         public MintEaseMethod       EaseType = MintEaseMethod.OutBack;
         public AnimationCurve       TimeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-        public bool                 AutoStartValue;
+        public bool                 AutoStartValue = true;
 
-        public Color                StartCor;
-        public Color                EndCor;
+        public Color                StartCor    = Color.white;
+        public Color                EndCor      = Color.white;
 
         public float                StartF;
         public float                EndF;
@@ -146,6 +146,27 @@ namespace MintAnimation {
                 return (T)obj;
             }
             return default(T);
+        }
+
+        public void SetStartValue<T>(T value)
+        {
+            if (typeof(T) == typeof(float))
+            {
+                StartF = (float)((object)value);
+            }
+            else if (typeof(T) == typeof(Vector3))
+            {
+                StartV3 = (Vector3)((object)value);
+            }
+            else if (typeof(T) == typeof(Color))
+            {
+                StartCor = (Color)((object)value);
+            }
+            else if (typeof(T) == typeof(Quaternion))
+            {
+                StartV3 = ((Quaternion)((object)value)).eulerAngles;
+            }
+            AutoStartValue = false;
         }
     }
 }
