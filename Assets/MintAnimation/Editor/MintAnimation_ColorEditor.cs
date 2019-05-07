@@ -22,8 +22,6 @@ namespace MintAnimation
         private SerializedProperty EaseType;
         private SerializedProperty TimeCurve;
 
-        private SerializedProperty AutoStartValue;
-
         private SerializedProperty StartCor;
         private SerializedProperty EndCor;
 
@@ -51,7 +49,6 @@ namespace MintAnimation
             IsCustomEase = AnimationInfo.FindPropertyRelative("IsCustomEase");
             EaseType = AnimationInfo.FindPropertyRelative("EaseType");
             TimeCurve = AnimationInfo.FindPropertyRelative("TimeCurve");
-            AutoStartValue = AnimationInfo.FindPropertyRelative("AutoStartValue");
             StartCor = AnimationInfo.FindPropertyRelative("StartCor");
             EndCor = AnimationInfo.FindPropertyRelative("EndCor");
         }
@@ -112,11 +109,8 @@ namespace MintAnimation
             GUILayout.Space(10);
             GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
 
-            EditorGUILayout.PropertyField(AutoStartValue);
-            if (!this.AutoStartValue.boolValue)
-            {
-                EditorGUILayout.PropertyField(StartCor);
-            }
+            //EditorGUILayout.PropertyField(AutoStartValue);
+            EditorGUILayout.PropertyField(StartCor);
             EditorGUILayout.PropertyField(EndCor);
 
             // 应用属性修改
