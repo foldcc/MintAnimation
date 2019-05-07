@@ -24,7 +24,6 @@ namespace MintAnimation {
         }
 
 
-
         public Action                                           OnComplete;
 
         public MintAnimationInfo                                AnimationInfo;
@@ -35,10 +34,14 @@ namespace MintAnimation {
         private float                                           _nowTime;
         private bool                                            _isPause;
 
+        private int                                             _nowLoopCount;
+        private float                                           _backTime;
+
         public void Init()
         {
             _nowTime = 0;
             _isPause = true;
+            _backTime = AnimationInfo.Duration / 2;
             if (AnimationInfo.AutoStartValue) AnimationInfo.SetStartValue<T>(_getter.Invoke());
             register();
         }
@@ -56,8 +59,28 @@ namespace MintAnimation {
 
         private bool updateAnimation(float deltaTime) {
             if (_isPause) return false;
-            _setter.Invoke(AnimationInfo.GetProgress<T>(_nowTime));
+            if (AnimationInfo.IsBack)
+            {
+                if (_nowTime <= _backTime)
+                    _setter.Invoke(AnimationInfo.GetProgress<T>(_nowTime * 2));
+                else
+                    _setter.Invoke(AnimationInfo.GetProgress<T>(AnimationInfo.Duration - ((_nowTime - _backTime) * 2)));
+            }
+            else
+            {
+                _setter.Invoke(AnimationInfo.GetProgress<T>(_nowTime));
+            }
+
             if (_nowTime >= AnimationInfo.Duration) {
+                _nowLoopCount++;
+                if (AnimationInfo.IsLoop)
+                {
+                    if (AnimationInfo.LoopCount == -1 || _nowLoopCount < AnimationInfo.LoopCount)
+                    {
+                        _nowTime = 0;
+                        return true;
+                    }
+                }
                 OnComplete?.Invoke();
                 Stop();
             }
@@ -84,11 +107,11 @@ namespace MintAnimation {
                 case DriveEnum.Custom:
                     if (AnimationInfo.CustomDrive != null)
                     {
-                        AnimationInfo.CustomDrive.RemoveDriveAction(updateAnimation);
+                        AnimationInfo.CustomDrive?.RemoveDriveAction(updateAnimation);
                     }
                     break;
                 case DriveEnum.Globa:
-                    MintDriveComponentSinge.Instance.RemoveDriveAction(updateAnimation);
+                    MintDriveComponentSinge.Instance?.RemoveDriveAction(updateAnimation);
                     break;
             }
         }
@@ -100,7 +123,9 @@ namespace MintAnimation {
             mintAnimationInfo.StartF = mintGetter.Invoke();
             mintAnimationInfo.EndF = endvalue;
             mintAnimationInfo.Duration = duration;
-            return new MintAnimationClip<float>(mintGetter, mintSetter, mintAnimationInfo);
+            var a = new MintAnimationClip<float>(mintGetter, mintSetter, mintAnimationInfo);
+            a.Init();
+            return a;
         }
     }
 }

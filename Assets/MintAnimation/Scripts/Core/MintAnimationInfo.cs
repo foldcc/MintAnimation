@@ -46,7 +46,7 @@ namespace MintAnimation {
             else if (nowTime > Duration)
                 nowTime = Duration;
             float value = StartF;
-            if (IsCustomEase)
+            if (!IsCustomEase)
             {
                 value = MintEaseAction.GetEaseAction(EaseType, nowTime / Duration) * (EndF - StartF) + StartF;
             }
@@ -67,7 +67,7 @@ namespace MintAnimation {
             else if (nowTime > Duration)
                 nowTime = Duration;
 
-            if (IsCustomEase)
+            if (!IsCustomEase)
             {
                 return Vector3.Lerp(StartV3, EndV3, MintEaseAction.GetEaseAction(EaseType, nowTime / Duration));
             }
@@ -89,13 +89,13 @@ namespace MintAnimation {
             else if (nowTime > Duration)
                 nowTime = Duration;
 
-            if (IsCustomEase)
+            if (!IsCustomEase)
             {
                 return Color.Lerp(StartCor , EndCor , MintEaseAction.GetEaseAction(EaseType, nowTime / Duration));
             }
             else
             {
-                return Color.Lerp(StartCor, EndCor, TimeCurve.Evaluate(nowTime));
+                return Color.Lerp(StartCor, EndCor, TimeCurve.Evaluate(nowTime / Duration));
             }
         }
 
@@ -114,12 +114,12 @@ namespace MintAnimation {
                 nowTime = 0;
             else if (nowTime > Duration)
                 nowTime = Duration;
-            if (IsCustomEase)
+            if (!IsCustomEase)
             {
                 return Quaternion.Lerp(_startQ, _endQ, MintEaseAction.GetEaseAction(EaseType, nowTime / Duration));
             }
             else {
-                return Quaternion.Lerp(_startQ, _endQ, TimeCurve.Evaluate(nowTime));
+                return Quaternion.Lerp(_startQ, _endQ, TimeCurve.Evaluate(nowTime / Duration));
             }
         }
 

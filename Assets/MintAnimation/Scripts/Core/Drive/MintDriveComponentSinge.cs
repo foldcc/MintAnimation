@@ -5,12 +5,13 @@ using UnityEngine;
 namespace MintAnimation {
     public class MintDriveComponentSinge : MintDriveComponent
     {
+        private static bool mIsInit = false;
         private static MintDriveComponentSinge _instance;
         public static MintDriveComponentSinge Instance
         {
             get
             {
-                if (_instance == null)
+                if (_instance == null && !mIsInit)
                 {
                     var objs = FindObjectsOfType<MintDriveComponentSinge>();
                     for (int i = 0; i < objs.Length; i++)
@@ -20,6 +21,7 @@ namespace MintAnimation {
                     _instance = new GameObject().AddComponent<MintDriveComponentSinge>();
                     _instance.name = "[ MintAnimationDrive ]";
                     DontDestroyOnLoad(_instance);
+                    mIsInit = true;
                 }
                 return _instance;
             }
@@ -28,6 +30,7 @@ namespace MintAnimation {
                 _instance = value;
             }
         }
+
     }
 }
 
