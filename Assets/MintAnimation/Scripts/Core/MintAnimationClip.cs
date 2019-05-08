@@ -93,11 +93,11 @@ namespace MintAnimation {
             {
                 case DriveEnum.Custom:
                     if (AnimationInfo.CustomDrive != null) {
-                        AnimationInfo.CustomDrive.AddDriveAction(updateAnimation);
+                        AnimationInfo.CustomDrive.AddDriveAction(updateAnimation, AnimationInfo.UpdaterTypeEnum);
                     }
                     break;
                 case DriveEnum.Globa:
-                    MintDriveComponentSinge.Instance.AddDriveAction(updateAnimation);
+                    MintDriveComponentSinge.Instance.AddDriveAction(updateAnimation, AnimationInfo.UpdaterTypeEnum);
                     break;
             }
         }
@@ -107,11 +107,11 @@ namespace MintAnimation {
                 case DriveEnum.Custom:
                     if (AnimationInfo.CustomDrive != null)
                     {
-                        AnimationInfo.CustomDrive?.RemoveDriveAction(updateAnimation);
+                        AnimationInfo.CustomDrive?.RemoveDriveAction(updateAnimation , AnimationInfo.UpdaterTypeEnum);
                     }
                     break;
                 case DriveEnum.Globa:
-                    MintDriveComponentSinge.Instance?.RemoveDriveAction(updateAnimation);
+                    MintDriveComponentSinge.Instance?.RemoveDriveAction(updateAnimation, AnimationInfo.UpdaterTypeEnum);
                     break;
             }
         }

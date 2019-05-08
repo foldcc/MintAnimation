@@ -18,7 +18,7 @@ namespace MintAnimation {
         public MintEaseMethod       EaseType = MintEaseMethod.OutBack;
         public AnimationCurve       TimeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-        public bool                 AutoStartValue = true;
+        public bool AutoStartValue = true;
 
         public Color                StartCor    = Color.white;
         public Color                EndCor      = Color.white;
@@ -32,8 +32,9 @@ namespace MintAnimation {
         private Quaternion          _startQ;
         private Quaternion          _endQ;
 
-        public DriveEnum DriveType = DriveEnum.Globa;
-        public MintDriveComponent CustomDrive;
+        public DriveEnum            DriveType = DriveEnum.Globa;
+        public UpdaterTypeEnum      UpdaterTypeEnum = UpdaterTypeEnum.Update;
+        public MintDriveComponent   CustomDrive;
 
         /// <summary>
         /// 获取当前时间下的float
