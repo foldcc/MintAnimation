@@ -41,7 +41,7 @@ namespace MintAnimation {
                         _fixedUpdateDrive += driveAction;
                     break;
                 case UpdaterTypeEnum.Coroutine:
-                    if (null == _updateDrive)
+                    if (null == _enumeratorDrive)
                         _enumeratorDrive = driveAction;
                     else
                         _enumeratorDrive += driveAction;
