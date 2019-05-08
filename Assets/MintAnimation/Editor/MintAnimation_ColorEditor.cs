@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace MintAnimation
 {
-    [CustomEditor(typeof(MintAnimation_Color))]
+    [CanEditMultipleObjects,CustomEditor(typeof(MintAnimation_Color))]
     public class MintAnimation_ColorEditor : Editor
     {
         private SerializedProperty AnimationInfo;
@@ -24,6 +24,11 @@ namespace MintAnimation
 
         private SerializedProperty StartCor;
         private SerializedProperty EndCor;
+
+        private SerializedProperty DriveType;
+        private SerializedProperty UpdaterTypeEnum;
+        private SerializedProperty CustomDrive;
+
 
         public static Texture2D GetTexture2D(Color32 color32)
         {
@@ -51,6 +56,9 @@ namespace MintAnimation
             TimeCurve = AnimationInfo.FindPropertyRelative("TimeCurve");
             StartCor = AnimationInfo.FindPropertyRelative("StartCor");
             EndCor = AnimationInfo.FindPropertyRelative("EndCor");
+            DriveType = AnimationInfo.FindPropertyRelative("DriveType");
+            UpdaterTypeEnum = AnimationInfo.FindPropertyRelative("UpdaterTypeEnum");
+            CustomDrive = AnimationInfo.FindPropertyRelative("CustomDrive");
         }
 
         public override void OnInspectorGUI()
@@ -109,7 +117,20 @@ namespace MintAnimation
             GUILayout.Space(10);
             GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
 
-            //EditorGUILayout.PropertyField(AutoStartValue);
+            EditorGUILayout.PropertyField(DriveType);
+            if (DriveType.enumValueIndex == 0)
+            {
+                //custom
+                EditorGUILayout.PropertyField(CustomDrive);
+            }
+            else
+            {
+                EditorGUILayout.PropertyField(UpdaterTypeEnum);
+            }
+
+            GUILayout.Space(10);
+            GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
+
             EditorGUILayout.PropertyField(StartCor);
             EditorGUILayout.PropertyField(EndCor);
 
