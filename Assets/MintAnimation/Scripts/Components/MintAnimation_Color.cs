@@ -5,11 +5,8 @@ using UnityEngine.UI;
 
 namespace MintAnimation
 {
-    public class MintAnimation_Color : MonoBehaviour
+    public class MintAnimation_Color : MintAnimation_Base
     {
-        public MintAnimationInfo    AnimationInfo;
-        public bool                 IsAutoPlay = true;
-
         private Color               mGetColor;
         private Graphic             mGrahic;
         private Material            mMaterail;
