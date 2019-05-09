@@ -14,11 +14,11 @@ namespace MintAnimation {
         public bool                 IsLoop;
         public int                  LoopCount;
        
-        public bool                 IsCustomEase = true;
+        public bool                 IsCustomEase = false;
         public MintEaseMethod       EaseType = MintEaseMethod.OutBack;
         public AnimationCurve       TimeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-        public bool AutoStartValue = true;
+        public bool                 AutoStartValue = true;
 
         public Color                StartCor    = Color.white;
         public Color                EndCor      = Color.white;
