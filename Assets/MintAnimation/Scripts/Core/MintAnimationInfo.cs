@@ -70,11 +70,10 @@ namespace MintAnimation {
 
             if (!IsCustomEase)
             {
-                return Vector3.Lerp(StartV3, EndV3, MintEaseAction.GetEaseAction(EaseType, nowTime / Duration));
+                return MintEaseAction.GetEaseAction(EaseType, nowTime / Duration) * (EndV3 - StartV3) + StartV3;
             }
             else
             {
-
                 return Vector3.Lerp(StartV3, EndV3, TimeCurve.Evaluate(nowTime));
             }
         }
@@ -167,7 +166,6 @@ namespace MintAnimation {
             {
                 StartV3 = ((Quaternion)((object)value)).eulerAngles;
             }
-            AutoStartValue = false;
         }
     }
 }
