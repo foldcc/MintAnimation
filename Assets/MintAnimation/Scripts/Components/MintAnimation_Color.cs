@@ -5,44 +5,27 @@ using UnityEngine.UI;
 
 namespace MintAnimation
 {
-    public class MintAnimation_Color : MintAnimation_Base
+    public class MintAnimation_Color : MintAnimation_Base<Color>
     {
         private Color               mGetColor;
         private Graphic             mGrahic;
         private Material            mMaterail;
-
-        private MintAnimationClip<Color> mMintAnimationClip;
-
-        private void OnEnable()
-        {
-            init();
-        }
-
-        private void OnDisable()
-        {
-            mMintAnimationClip?.Stop();
-        }
-
-        private void init()
+        
+        protected override void init()
         {
             this.mGrahic = this.gameObject.GetComponent<Graphic>();
             var m = this.gameObject.GetComponent<MeshRenderer>();
             if (m != null) this.mMaterail = m.material;
-
             AnimationInfo.AutoStartValue = false;
-            mMintAnimationClip = new MintAnimationClip<Color>(getter , setter , AnimationInfo);
-            if (IsAutoPlay)
-            {
-                mMintAnimationClip.Play();
-            }
+            base.init();
         }
 
-        private Color getter()
+        protected override Color getter()
         {
             return mGetColor;
         }
 
-        private void setter(Color rColor)
+        protected override void setter(Color rColor)
         {
             this.mGetColor = rColor;
 
