@@ -23,7 +23,6 @@ namespace MintAnimation {
             Init();
         }
 
-
         public Action                                           OnComplete;
 
         public MintAnimationInfo                                AnimationInfo;
@@ -42,7 +41,6 @@ namespace MintAnimation {
             _nowTime = 0;
             _isPause = true;
             _backTime = AnimationInfo.Duration / 2;
-            if (AnimationInfo.AutoStartValue) AnimationInfo.SetStartValue<T>(_getter.Invoke());
             register();
         }
 
@@ -53,24 +51,15 @@ namespace MintAnimation {
             _isPause = true;
         }
         public void Stop() {
+            _nowTime = AnimationInfo.Duration;
+            setAnimationValue();
             _isPause = true;
             unregister();
         }
 
         private bool updateAnimation(float deltaTime) {
             if (_isPause) return false;
-            if (AnimationInfo.IsBack)
-            {
-                if (_nowTime <= _backTime)
-                    _setter.Invoke(AnimationInfo.GetProgress<T>(_nowTime * 2));
-                else
-                    _setter.Invoke(AnimationInfo.GetProgress<T>(AnimationInfo.Duration - ((_nowTime - _backTime) * 2)));
-            }
-            else
-            {
-                _setter.Invoke(AnimationInfo.GetProgress<T>(_nowTime));
-            }
-
+            setAnimationValue();
             if (_nowTime >= AnimationInfo.Duration) {
                 _nowLoopCount++;
                 if (AnimationInfo.IsLoop)
@@ -86,6 +75,20 @@ namespace MintAnimation {
             }
             else _nowTime += deltaTime;
             return true;
+        }
+        private void setAnimationValue()
+        {
+            if (AnimationInfo.IsBack)
+            {
+                if (_nowTime <= _backTime)
+                    _setter.Invoke(AnimationInfo.GetProgress<T>(_nowTime * 2));
+                else
+                    _setter.Invoke(AnimationInfo.GetProgress<T>(AnimationInfo.Duration - ((_nowTime - _backTime) * 2)));
+            }
+            else
+            {
+                _setter.Invoke(AnimationInfo.GetProgress<T>(_nowTime));
+            }
         }
 
         private void register() {
