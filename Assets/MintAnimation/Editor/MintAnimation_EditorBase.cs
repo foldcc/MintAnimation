@@ -5,10 +5,9 @@ using UnityEditor;
 
 namespace MintAnimation
 {
-    [CanEditMultipleObjects,CustomEditor(typeof(MintAnimation_Color))]
-    public class MintAnimation_ColorEditor : Editor
+    public class MintAnimation_EditorBase : Editor
     {
-        private SerializedProperty AnimationInfo;
+        protected SerializedProperty AnimationInfo;
 
         private SerializedProperty Duration;
 
@@ -22,13 +21,13 @@ namespace MintAnimation
         private SerializedProperty EaseType;
         private SerializedProperty TimeCurve;
 
-        private SerializedProperty StartCor;
-        private SerializedProperty EndCor;
-
         private SerializedProperty DriveType;
         private SerializedProperty UpdaterTypeEnum;
-        private SerializedProperty CustomDrive;
+        private SerializedProperty CustomDrive; 
 
+        protected SerializedProperty AutoStartValue;
+
+        private bool foldoutType = true;
 
         public static Texture2D GetTexture2D(Color32 color32)
         {
@@ -45,6 +44,11 @@ namespace MintAnimation
 
         private void OnEnable()
         {
+            Init();
+        }
+
+        protected virtual void Init()
+        {
             AnimationInfo = this.serializedObject.FindProperty("AnimationInfo");
             Duration = AnimationInfo.FindPropertyRelative("Duration");
             IsAuto = this.serializedObject.FindProperty("IsAutoPlay");
@@ -54,35 +58,32 @@ namespace MintAnimation
             IsCustomEase = AnimationInfo.FindPropertyRelative("IsCustomEase");
             EaseType = AnimationInfo.FindPropertyRelative("EaseType");
             TimeCurve = AnimationInfo.FindPropertyRelative("TimeCurve");
-            StartCor = AnimationInfo.FindPropertyRelative("StartCor");
-            EndCor = AnimationInfo.FindPropertyRelative("EndCor");
             DriveType = AnimationInfo.FindPropertyRelative("DriveType");
             UpdaterTypeEnum = AnimationInfo.FindPropertyRelative("UpdaterTypeEnum");
             CustomDrive = AnimationInfo.FindPropertyRelative("CustomDrive");
+            AutoStartValue = AnimationInfo.FindPropertyRelative("AutoStartValue");
         }
+
 
         public override void OnInspectorGUI()
         {
-
             // 更新显示
             this.serializedObject.Update();
+            DrawTitle();
+            this.foldoutType = EditorGUILayout.Foldout(foldoutType, "Mint Animation Info");
+            if (this.foldoutType) {
+                Draw();
+            }
+            // 应用属性修改
+            this.serializedObject.ApplyModifiedProperties();
+        }
 
-            GUIStyle gUIStyle = new GUIStyle();
-
-            gUIStyle.fontSize = 18;
-            gUIStyle.normal.textColor = new Color32(56, 56, 56, 255);
-            gUIStyle.normal.background = MintAnimation_ColorEditor.GetTexture2D(new Color32(0, 255, 198, 255));
-            gUIStyle.alignment = TextAnchor.MiddleCenter;
-            gUIStyle.margin = new RectOffset(0, 0, 8, 0);
-            GUILayout.Box(" Mint Color ", gUIStyle);
-            gUIStyle = null;
-
+        public virtual void Draw()
+        {
             GUILayout.Space(15);
-            
             EditorGUILayout.PropertyField(Duration);
             if (this.Duration.floatValue < 0) this.Duration.floatValue = 0;
-
-            GUILayout.Box(GUIContent.none , GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
+            GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(IsAuto);
@@ -90,7 +91,7 @@ namespace MintAnimation
             EditorGUILayout.EndHorizontal();
 
             GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
-            
+
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(IsLoop);
             if (this.IsLoop.boolValue)
@@ -105,7 +106,7 @@ namespace MintAnimation
             EditorGUILayout.PropertyField(IsCustomEase);
             if (this.IsCustomEase.boolValue)
             {
-                
+
                 EditorGUILayout.PropertyField(TimeCurve);
                 EditorGUILayout.HelpBox("注：自定义曲线 只会读取 x为[0-1]之间的数值", MessageType.Info);
             }
@@ -130,12 +131,10 @@ namespace MintAnimation
 
             GUILayout.Space(10);
             GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
+        }
 
-            EditorGUILayout.PropertyField(StartCor);
-            EditorGUILayout.PropertyField(EndCor);
-
-            // 应用属性修改
-            this.serializedObject.ApplyModifiedProperties();
+        protected virtual void DrawTitle()
+        {
         }
     }
 }
