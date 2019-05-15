@@ -127,7 +127,6 @@ namespace MintAnimation {
             mintAnimationInfo.EndF = endvalue;
             mintAnimationInfo.Duration = duration;
             var a = new MintAnimationClip<float>(mintGetter, mintSetter, mintAnimationInfo);
-            a.Init();
             return a;
         }
     }
