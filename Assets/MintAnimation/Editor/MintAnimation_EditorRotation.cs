@@ -1,21 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
 namespace MintAnimation.Editor
 {
-    [CustomEditor(typeof(MintAnimation_Position), true)]
-    public class MintAnimation_EditorPosition : MintAnimation_EditorBase
+    [CustomEditor(typeof(MintAnimation_Rotation), true)]
+    public class MintAnimation_EditorRotation : MintAnimation_EditorBase
     {
-        private SerializedProperty IsLocalPosition;
-        private SerializedProperty StartPosition;
-        private SerializedProperty EndPosition;
+        private SerializedProperty IsLocalRotation;
+        private SerializedProperty StartRotation;
+        private SerializedProperty EndRotation;
 
         protected override void Init()
         {
             base.Init();
-            IsLocalPosition = serializedObject.FindProperty("IsLocal");
-            StartPosition = AnimationInfo.FindPropertyRelative("StartV3");
-            EndPosition = AnimationInfo.FindPropertyRelative("EndV3");
+            IsLocalRotation = serializedObject.FindProperty("IsLocal");
+            StartRotation = AnimationInfo.FindPropertyRelative("StartV3");
+            EndRotation = AnimationInfo.FindPropertyRelative("EndV3");
         }
 
         protected override void DrawTitle()
@@ -23,10 +25,10 @@ namespace MintAnimation.Editor
             GUIStyle gUIStyle = new GUIStyle();
             gUIStyle.fontSize = 18;
             gUIStyle.normal.textColor = new Color32(56, 56, 56, 255);
-            gUIStyle.normal.background = MintAnimation_EditorBase.GetTexture2D(new Color32(255, 236, 0, 255));
+            gUIStyle.normal.background = MintAnimation_EditorBase.GetTexture2D(new Color32(177, 0, 255, 255));
             gUIStyle.alignment = TextAnchor.MiddleCenter;
             gUIStyle.margin = new RectOffset(0, 0, 8, 0);
-            GUILayout.Box(" Mint Position ", gUIStyle);
+            GUILayout.Box(" Mint Rotation ", gUIStyle);
             gUIStyle = null;
         }
 
@@ -36,7 +38,7 @@ namespace MintAnimation.Editor
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(AutoStartValue);
-            IsLocalPosition.boolValue = GUILayout.Toolbar(IsLocalPosition.boolValue ? 0 : 1,
+            IsLocalRotation.boolValue = GUILayout.Toolbar(IsLocalRotation.boolValue ? 0 : 1,
                 new string[2] { "Local", "World" },
                 new GUILayoutOption[] {
                 GUILayout.Width(120),
@@ -48,12 +50,13 @@ namespace MintAnimation.Editor
 
             if (!AutoStartValue.boolValue)
             {
-                EditorGUILayout.PropertyField(StartPosition , new GUIContent("StartPostion"));
+                EditorGUILayout.PropertyField(StartRotation, new GUIContent("StartRotation"));
             }
-            EditorGUILayout.PropertyField(EndPosition, new GUIContent("EndPostion"));
+            EditorGUILayout.PropertyField(EndRotation, new GUIContent("EndRotation"));
 
             GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
 
         }
     }
 }
+

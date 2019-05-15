@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace MintAnimation
+namespace MintAnimation.Editor
 {
-    [CanEditMultipleObjects, CustomEditor(typeof(MintAnimation_Base<Color>), true)]
+    [CustomEditor(typeof(MintAnimation_Color), true)]
     public class MintAnimation_EditorColor : MintAnimation_EditorBase
     {
         protected override void Init()

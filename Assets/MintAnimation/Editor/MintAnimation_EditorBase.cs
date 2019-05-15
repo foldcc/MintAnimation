@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace MintAnimation
+namespace MintAnimation.Editor
 {
-    public class MintAnimation_EditorBase : Editor
+    [CanEditMultipleObjects]
+    public class MintAnimation_EditorBase : UnityEditor.Editor
     {
         protected SerializedProperty AnimationInfo;
 
