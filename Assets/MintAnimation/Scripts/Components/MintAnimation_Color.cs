@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace MintAnimation
 {
+    [AddComponentMenu("MintAnimation/ColorAnimation" , 1)]
     public class MintAnimation_Color : MintAnimation_Base<Color>
     {
         private Color               mGetColor;

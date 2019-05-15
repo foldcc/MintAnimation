@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MintAnimation
 {
+    [AddComponentMenu("MintAnimation/PositionAnimation", 1)]
     public class MintAnimation_Position : MintAnimation_Base<Vector3>
     {
 
