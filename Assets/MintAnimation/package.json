@@ -1,0 +1,11 @@
+{
+  "name": "com.foldcc.mintanimation",
+  "displayName": "MintAnimation",
+  "version": "0.0.1",
+  "unity": "2018.3",
+  "license": "MIT",
+  "description": "A quick animation plug-in, suitable for making UI animation",
+  "keywords": [ "ugui", "unity", "animation" ],
+  "dependencies": {
+  }
+}
