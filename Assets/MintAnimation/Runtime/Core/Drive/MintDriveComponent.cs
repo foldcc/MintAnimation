@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace MintAnimation {
+namespace MintAnimation.Core {
 
     /// <summary>
     /// 动画驱动事件

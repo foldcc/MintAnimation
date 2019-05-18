@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MintAnimation {
+namespace MintAnimation.Core
+{
     public class MintDriveComponentSinge : MintDriveComponent
     {
         private static bool mIsInit = false;

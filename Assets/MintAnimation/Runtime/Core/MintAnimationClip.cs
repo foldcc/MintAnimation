@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MintAnimation {
+namespace MintAnimation.Core
+{
 
     public delegate T MintGetter<out T>();
 

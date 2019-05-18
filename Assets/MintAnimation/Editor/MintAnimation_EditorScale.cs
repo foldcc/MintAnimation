@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace MintAnimation.Editor
 {
-    [CustomEditor(typeof(MintAnimation_Scale), true)]
+    [CustomEditor(typeof(MintAnimation.MintAnimation_Scale), true)]
     public class MintAnimation_EditorScale : MintAnimation_EditorBase
     {
         private SerializedProperty StartScale;

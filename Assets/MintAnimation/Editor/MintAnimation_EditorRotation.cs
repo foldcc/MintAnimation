@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MintAnimation.Editor
 {
-    [CustomEditor(typeof(MintAnimation_Rotation), true)]
+    [CustomEditor(typeof(MintAnimation.MintAnimation_Rotation), true)]
     public class MintAnimation_EditorRotation : MintAnimation_EditorBase
     {
         private SerializedProperty IsLocalRotation;

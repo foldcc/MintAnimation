@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace MintAnimation.Editor
 {
-    [CustomEditor(typeof(MintAnimation_Position), true)]
+    [CustomEditor(typeof(MintAnimation.MintAnimation_Position), true)]
     public class MintAnimation_EditorPosition : MintAnimation_EditorBase
     {
         private SerializedProperty IsLocalPosition;

@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace MintAnimation.Editor
 {
-    [CustomEditor(typeof(MintAnimation_Color), true)]
+    [CustomEditor(typeof(MintAnimation.MintAnimation_Color), true)]
     public class MintAnimation_EditorColor : MintAnimation_EditorBase
     {
         protected override void Init()

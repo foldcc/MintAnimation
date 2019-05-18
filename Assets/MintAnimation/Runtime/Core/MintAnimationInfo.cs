@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MintAnimation {
+namespace MintAnimation.Core
+{
 
     [System.Serializable]
     public class MintAnimationInfo
@@ -74,7 +75,7 @@ namespace MintAnimation {
             }
             else
             {
-                return Vector3.Lerp(StartV3, EndV3, TimeCurve.Evaluate(nowTime));
+                return Vector3.Lerp(StartV3, EndV3, TimeCurve.Evaluate(nowTime / Duration));
             }
         }
 
