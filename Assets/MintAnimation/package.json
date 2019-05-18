@@ -1,11 +1,16 @@
 {
   "name": "com.foldcc.mintanimation",
   "displayName": "MintAnimation",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "unity": "2018.3",
   "license": "MIT",
+  "author" : { 
+	   "name" : "foldcc",
+	   "email" : "foldcc@gmail.com",
+	   "url" : "https://github.com/foldcc"
+  },
   "description": "A quick animation plug-in, suitable for making UI animation",
-  "keywords": [ "ugui", "unity", "animation" ],
+  "keywords": [ "ugui", "animation" ],
   "dependencies": {
   }
 }
