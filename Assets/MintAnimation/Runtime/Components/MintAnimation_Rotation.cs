@@ -7,6 +7,13 @@ namespace MintAnimation
     {
         public bool IsLocal;
 
+        protected override void init()
+        {
+            this.AnimationInfo.StartQ = Quaternion.Euler(AnimationInfo.StartV3);
+            this.AnimationInfo.EndQ = Quaternion.Euler(AnimationInfo.EndV3);
+            base.init();
+        }
+
         protected override void setter(Quaternion value)
         {
             if (this.IsLocal)

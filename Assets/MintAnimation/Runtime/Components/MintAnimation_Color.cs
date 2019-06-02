@@ -9,7 +9,7 @@ namespace MintAnimation
         private Color               mGetColor;
         private Graphic             mGrahic;
         private Material            mMaterail;
-        
+
         protected override void init()
         {
             this.mGrahic = this.gameObject.GetComponent<Graphic>();

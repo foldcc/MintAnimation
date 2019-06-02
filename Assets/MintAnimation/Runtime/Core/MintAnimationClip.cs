@@ -111,11 +111,11 @@ namespace MintAnimation.Core
                 case DriveEnum.Custom:
                     if (AnimationInfo.CustomDrive != null)
                     {
-                        AnimationInfo.CustomDrive?.RemoveDriveAction(updateAnimation , AnimationInfo.UpdaterTypeEnum);
+                        AnimationInfo.CustomDrive.RemoveDriveAction(updateAnimation , AnimationInfo.UpdaterTypeEnum);
                     }
                     break;
                 case DriveEnum.Globa:
-                    MintDriveComponentSinge.Instance?.RemoveDriveAction(updateAnimation, AnimationInfo.UpdaterTypeEnum);
+                    MintDriveComponentSinge.Instance.RemoveDriveAction(updateAnimation, AnimationInfo.UpdaterTypeEnum);
                     break;
             }
         }

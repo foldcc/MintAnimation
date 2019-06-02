@@ -30,8 +30,8 @@ namespace MintAnimation.Core
         public Vector3              StartV3;
         public Vector3              EndV3;
 
-        private Quaternion          _startQ;
-        private Quaternion          _endQ;
+        public Quaternion          StartQ;
+        public Quaternion          EndQ;
 
         public DriveEnum            DriveType = DriveEnum.Globa;
         public UpdaterTypeEnum      UpdaterTypeEnum = UpdaterTypeEnum.Update;
@@ -42,7 +42,7 @@ namespace MintAnimation.Core
         /// </summary>
         /// <param name="nowTime">当前时间 [0,Duration]</param>
         /// <returns></returns>
-        public float GetProgressWitchF(float nowTime) {
+        float GetProgressWitchF(float nowTime) {
             if (nowTime < 0)
                 nowTime = 0;
             else if (nowTime > Duration)
@@ -63,7 +63,7 @@ namespace MintAnimation.Core
         /// </summary>
         /// <param name="nowTime"></param>
         /// <returns></returns>
-        public Vector3 GetProgressWitchV3(float nowTime) {
+        Vector3 GetProgressWitchV3(float nowTime) {
             if (nowTime < 0)
                 nowTime = 0;
             else if (nowTime > Duration)
@@ -75,7 +75,7 @@ namespace MintAnimation.Core
             }
             else
             {
-                return Vector3.Lerp(StartV3, EndV3, TimeCurve.Evaluate(nowTime / Duration));
+                return TimeCurve.Evaluate(nowTime / Duration) * (EndV3 - StartV3) + StartV3;
             }
         }
 
@@ -84,7 +84,7 @@ namespace MintAnimation.Core
         /// </summary>
         /// <param name="nowTime"></param>
         /// <returns></returns>
-        public Color GetProgressWitchCor(float nowTime) {
+        Color GetProgressWitchCor(float nowTime) {
             if (nowTime < 0)
                 nowTime = 0;
             else if (nowTime > Duration)
@@ -92,11 +92,11 @@ namespace MintAnimation.Core
 
             if (!IsCustomEase)
             {
-                return Color.Lerp(StartCor , EndCor , MintEaseAction.GetEaseAction(EaseType, nowTime / Duration));
+                return MintEaseAction.GetEaseAction(EaseType, nowTime / Duration) * (EndCor - StartCor) + StartCor;
             }
             else
             {
-                return Color.Lerp(StartCor, EndCor, TimeCurve.Evaluate(nowTime / Duration));
+                return TimeCurve.Evaluate(nowTime / Duration) * (EndCor - StartCor) + StartCor;
             }
         }
 
@@ -105,23 +105,19 @@ namespace MintAnimation.Core
         /// </summary>
         /// <param name="nowTime"></param>
         /// <returns></returns>
-        public Quaternion GetProgressWitchQ(float nowTime) {
-            if (_startQ == null) {
-                _startQ = Quaternion.Euler(StartV3);
-                _endQ = Quaternion.Euler(EndV3);
-            }
-
-            if (nowTime < 0)
-                nowTime = 0;
-            else if (nowTime > Duration)
-                nowTime = Duration;
-            if (!IsCustomEase)
-            {
-                return Quaternion.Lerp(_startQ, _endQ, MintEaseAction.GetEaseAction(EaseType, nowTime / Duration));
-            }
-            else {
-                return Quaternion.Lerp(_startQ, _endQ, TimeCurve.Evaluate(nowTime / Duration));
-            }
+        Quaternion GetProgressWitchQ(float nowTime) {
+//            if (nowTime < 0)
+//                nowTime = 0;
+//            else if (nowTime > Duration)
+//                nowTime = Duration;
+//            if (!IsCustomEase)
+//            {
+//                return Quaternion.Slerp(StartQ, EndQ, MintEaseAction.GetEaseAction(EaseType, nowTime / Duration));
+//            }
+//            else {
+//                return Quaternion.Slerp(StartQ, EndQ, TimeCurve.Evaluate(nowTime / Duration));
+//            }
+            return Quaternion.Euler(GetProgressWitchV3(nowTime));
         }
 
         public T GetProgress<T>(float nowTime)
@@ -131,41 +127,41 @@ namespace MintAnimation.Core
                 object obj = GetProgressWitchF(nowTime);
                 return (T)obj;
             }
-            else if (typeof(T) == typeof(Vector3))
+            if (typeof(T) == typeof(Vector3))
             {
                 object obj = GetProgressWitchV3(nowTime);
                 return (T)obj;
             }
-            else if (typeof(T) == typeof(Color))
+            if (typeof(T) == typeof(Color))
             {
                 object obj = GetProgressWitchCor(nowTime);
                 return (T)obj;
             }
-            else if (typeof(T) == typeof(Quaternion))
+            if (typeof(T) == typeof(Quaternion))
             {
                 object obj = GetProgressWitchQ(nowTime);
                 return (T)obj;
             }
-            return default(T);
+            return default;
         }
 
         public void SetStartValue<T>(T value)
         {
             if (typeof(T) == typeof(float))
             {
-                StartF = (float)((object)value);
+                StartF = (float)(object)value;
             }
             else if (typeof(T) == typeof(Vector3))
             {
-                StartV3 = (Vector3)((object)value);
+                StartV3 = (Vector3)(object)value;
             }
             else if (typeof(T) == typeof(Color))
             {
-                StartCor = (Color)((object)value);
+                StartCor = (Color)(object)value;
             }
             else if (typeof(T) == typeof(Quaternion))
             {
-                StartV3 = ((Quaternion)((object)value)).eulerAngles;
+                StartQ = (Quaternion)(object)value;
             }
         }
     }
