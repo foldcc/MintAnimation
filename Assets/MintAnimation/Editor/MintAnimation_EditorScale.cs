@@ -12,8 +12,8 @@ namespace MintAnimation.Editor
         protected override void Init()
         {
             base.Init();
-            StartScale = AnimationInfo.FindPropertyRelative("StartV3");
-            EndScale = AnimationInfo.FindPropertyRelative("EndV3");
+            StartScale = serializedObject.FindProperty("StartValue");
+            EndScale = serializedObject.FindProperty("EndValue");
         }
 
         protected override void DrawTitle()

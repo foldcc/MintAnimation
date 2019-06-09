@@ -12,8 +12,8 @@ namespace MintAnimation.Editor {
         protected override void Init()
         {
             base.Init();
-            StartAlpha = AnimationInfo.FindPropertyRelative("StartF");
-            EndAlpha = AnimationInfo.FindPropertyRelative("EndF");
+            StartAlpha = serializedObject.FindProperty("StartValue");
+            EndAlpha =   serializedObject.FindProperty("EndValue");
         }
 
 
@@ -42,7 +42,5 @@ namespace MintAnimation.Editor {
             }
             EditorGUILayout.Slider(EndAlpha, 0, 1, new GUIContent("EndAlpha"));
         }
-       
-
     }
 }

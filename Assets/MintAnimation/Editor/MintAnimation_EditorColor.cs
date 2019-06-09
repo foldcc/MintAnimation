@@ -15,8 +15,8 @@ namespace MintAnimation.Editor
         public override void Draw()
         {
             base.Draw();
-            EditorGUILayout.PropertyField(this.AnimationInfo.FindPropertyRelative("StartCor"));
-            EditorGUILayout.PropertyField(this.AnimationInfo.FindPropertyRelative("EndCor"));
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("StartValue"));
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("EndValue"));
         }
 
         protected override void DrawTitle()

@@ -16,8 +16,8 @@ namespace MintAnimation.Editor
         {
             base.Init();
             IsLocalRotation = serializedObject.FindProperty("IsLocal");
-            StartRotation = AnimationInfo.FindPropertyRelative("StartV3");
-            EndRotation = AnimationInfo.FindPropertyRelative("EndV3");
+            StartRotation = serializedObject.FindProperty("StartValue");
+            EndRotation = serializedObject.FindProperty("EndValue");
         }
 
         protected override void DrawTitle()

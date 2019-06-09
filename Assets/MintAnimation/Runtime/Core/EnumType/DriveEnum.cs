@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace MintAnimation.Core
+﻿namespace MintAnimation.Core
 {
 
     public enum DriveEnum {
