@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace MintAnimation.Core
 {
@@ -120,12 +121,30 @@ namespace MintAnimation.Core
         public static MintAnimationClip<float> Create(MintGetter<float> mintGetter, MintSetter<float> mintSetter, float endvalue, float duration)
         {
             MintAnimationDataBase<float> mintAnimationInfo = new MintAnimtaionDataFloat();
-            mintAnimationInfo.Options.EaseType = MintEaseMethod.Linear;
+            mintAnimationInfo.Options = new MintAnimationOptions(){ EaseType = MintEaseMethod.Linear , AutoStartValue = true , Duration = duration};
             mintAnimationInfo.StartValue = mintGetter.Invoke();
             mintAnimationInfo.EndValue = endvalue;
-            mintAnimationInfo.Options.Duration = duration;
             var a = new MintAnimationClip<float>(mintGetter, mintSetter, mintAnimationInfo);
             return a;
         }
+        public static MintAnimationClip<Vector3> Create(MintGetter<Vector3> mintGetter, MintSetter<Vector3> mintSetter, Vector3 endvalue, float duration)
+        {
+            MintAnimationDataBase<Vector3> mintAnimationInfo = new MintAnimationDataVector3();
+            mintAnimationInfo.Options = new MintAnimationOptions(){ EaseType = MintEaseMethod.Linear , AutoStartValue = true , Duration = duration};
+            mintAnimationInfo.StartValue = mintGetter.Invoke();
+            mintAnimationInfo.EndValue = endvalue;
+            var a = new MintAnimationClip<Vector3>(mintGetter, mintSetter, mintAnimationInfo);
+            return a;
+        }
+        public static MintAnimationClip<Color> Create(MintGetter<Color> mintGetter, MintSetter<Color> mintSetter, Color endvalue, float duration)
+        {
+            MintAnimationDataBase<Color> mintAnimationInfo = new MintAnimationDataColor();
+            mintAnimationInfo.Options = new MintAnimationOptions(){ EaseType = MintEaseMethod.Linear , AutoStartValue = true , Duration = duration};
+            mintAnimationInfo.StartValue = mintGetter.Invoke();
+            mintAnimationInfo.EndValue = endvalue;
+            var a = new MintAnimationClip<Color>(mintGetter, mintSetter, mintAnimationInfo);
+            return a;
+        }
+        
     }
 }
