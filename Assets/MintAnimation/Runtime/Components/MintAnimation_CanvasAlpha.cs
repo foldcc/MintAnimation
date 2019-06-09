@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using MintAnimation.Core;
 using UnityEngine;
 
 namespace MintAnimation {
@@ -23,6 +24,11 @@ namespace MintAnimation {
         protected override void setter(float value)
         {
             mCanvasGroup.alpha = value;
+        }
+
+        protected override MintAnimationDataBase<float> SetAnimationInfo()
+        {
+            return new MintAnimtaionDataFloat();
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MintAnimation.Core;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace MintAnimation
@@ -15,7 +16,7 @@ namespace MintAnimation
             this.mGrahic = this.gameObject.GetComponent<Graphic>();
             var m = this.gameObject.GetComponent<MeshRenderer>();
             if (m != null) this.mMaterail = m.material;
-            AnimationInfo.AutoStartValue = false;
+            MintAnimationOptions.AutoStartValue = false;
             base.init();
         }
 
@@ -36,6 +37,11 @@ namespace MintAnimation
             {
                 this.mMaterail.color = rColor;
             }
+        }
+
+        protected override MintAnimationDataBase<Color> SetAnimationInfo()
+        {
+            return new MintAnimationDataColor();
         }
     }
 }

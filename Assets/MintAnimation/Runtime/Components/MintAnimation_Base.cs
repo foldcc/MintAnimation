@@ -7,13 +7,13 @@ namespace MintAnimation
 	public abstract class MintAnimation_Base<T> : MonoBehaviour
 	{
         public Action                   OnComplete;
-        public MintAnimationInfo        AnimationInfo;
+        public MintAnimationOptions     MintAnimationOptions;
         public bool                     IsAutoPlay = true;
-
+        public T                        StartValue;
+        public T                        EndValue;
+        
         private bool                    _isFristInit = true;
-
         protected MintAnimationClip<T>  mMintAnimationClip;
-
         private void OnEnable()
         {
             init();
@@ -27,9 +27,15 @@ namespace MintAnimation
             Stop();
         }
 
-        protected virtual void init() {
-            if (AnimationInfo.AutoStartValue && _isFristInit) AnimationInfo.SetStartValue(getter());
-            mMintAnimationClip = new MintAnimationClip<T>(getter, setter, AnimationInfo);
+        protected virtual void init()
+        {
+            if (!_isFristInit) return;
+            MintAnimationDataBase<T> animationInfo = SetAnimationInfo();
+            animationInfo.StartValue = StartValue;
+            animationInfo.EndValue = EndValue;
+            animationInfo.Options = MintAnimationOptions;
+            if (MintAnimationOptions.AutoStartValue) animationInfo.SetStartValue(getter());
+            mMintAnimationClip = new MintAnimationClip<T>(getter, setter, animationInfo);
             mMintAnimationClip.OnComplete += OnComplete;
             _isFristInit = false;
         }
@@ -50,6 +56,11 @@ namespace MintAnimation
         public void Stop()
         {
             mMintAnimationClip.Stop();
+        }
+
+        protected virtual MintAnimationDataBase<T> SetAnimationInfo()
+        {
+            return null;
         }
     }
 }
