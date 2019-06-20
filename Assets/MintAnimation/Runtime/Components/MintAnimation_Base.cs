@@ -8,7 +8,7 @@ namespace MintAnimation
 	public abstract class MintAnimation_Base<T> : MonoBehaviour
 	{
         public Action                   OnComplete;
-        public MintAnimationOptions     MintAnimationOptions;
+        public MintAnimationOptions     MintAnimationOptions = new MintAnimationOptions();
         public bool                     IsAutoPlay = true;
         public T                        StartValue;
         public T                        EndValue;
@@ -19,7 +19,7 @@ namespace MintAnimation
         protected MintAnimationClip<T>  mMintAnimationClip;
         private void OnEnable()
         {
-            init();
+            if (_isFristInit) init();
             if (IsAutoPlay)
             {
                 Play();
@@ -32,7 +32,6 @@ namespace MintAnimation
 
         protected virtual void init()
         {
-            if (!_isFristInit) return;
             MintAnimationDataBase<T> animationInfo = SetAnimationInfo();
             animationInfo.StartValue = StartValue;
             animationInfo.EndValue = EndValue;
