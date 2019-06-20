@@ -51,7 +51,7 @@ namespace MintAnimation.Editor
 
         protected virtual void Init()
         {
-            AnimationInfo = this.serializedObject.FindProperty("AnimationInfo");
+            AnimationInfo = this.serializedObject.FindProperty("MintAnimationOptions");
             Duration = AnimationInfo.FindPropertyRelative("Duration");
             IsAuto = this.serializedObject.FindProperty("IsAutoPlay");
             IsBack = AnimationInfo.FindPropertyRelative("IsBack");

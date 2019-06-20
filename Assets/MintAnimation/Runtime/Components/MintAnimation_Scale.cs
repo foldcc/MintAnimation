@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MintAnimation.Core;
+using UnityEngine;
 
 namespace MintAnimation
 {
@@ -13,6 +14,10 @@ namespace MintAnimation
         protected override Vector3 getter()
         {
                 return transform.localScale;
+        }
+        protected override MintAnimationDataBase<Vector3> SetAnimationInfo()
+        {
+            return new MintAnimationDataVector3();
         }
     }
 }

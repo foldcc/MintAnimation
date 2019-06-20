@@ -1,33 +1,32 @@
-﻿using UnityEngine;
+﻿using MintAnimation.Core;
+using UnityEngine;
 
 namespace MintAnimation
 {
     [AddComponentMenu("MintAnimation/RotationAnimation", 1)]
-    public class MintAnimation_Rotation : MintAnimation_Base<Quaternion>
+    public class MintAnimation_Rotation : MintAnimation_Base<Vector3>
     {
         public bool IsLocal;
 
-        protected override void init()
-        {
-            this.AnimationInfo.StartQ = Quaternion.Euler(AnimationInfo.StartV3);
-            this.AnimationInfo.EndQ = Quaternion.Euler(AnimationInfo.EndV3);
-            base.init();
-        }
-
-        protected override void setter(Quaternion value)
+        protected override void setter(Vector3 value)
         {
             if (this.IsLocal)
-                transform.localRotation = value;
+                transform.localRotation = Quaternion.Euler(value);
             else
-                transform.rotation = value;
+                transform.rotation = Quaternion.Euler(value);
         }
 
-        protected override Quaternion getter()
+        protected override Vector3 getter()
         {
             if (this.IsLocal)
-                return transform.localRotation;
+                return transform.localRotation.eulerAngles;
             else
-                return transform.rotation;
+                return transform.rotation.eulerAngles;
+        }
+
+        protected override MintAnimationDataBase<Vector3> SetAnimationInfo()
+        {
+            return new MintAnimationDataVector3();
         }
     }
 
