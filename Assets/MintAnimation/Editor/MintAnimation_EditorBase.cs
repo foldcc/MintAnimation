@@ -27,6 +27,7 @@ namespace MintAnimation.Editor
         private SerializedProperty CustomDrive; 
 
         protected SerializedProperty AutoStartValue;
+        protected SerializedProperty CompleteAction;
 
         private bool foldoutType = true;
 
@@ -63,6 +64,7 @@ namespace MintAnimation.Editor
             UpdaterTypeEnum = AnimationInfo.FindPropertyRelative("UpdaterTypeEnum");
             CustomDrive = AnimationInfo.FindPropertyRelative("CustomDrive");
             AutoStartValue = AnimationInfo.FindPropertyRelative("AutoStartValue");
+            CompleteAction = this.serializedObject.FindProperty("CompleteAction");
         }
 
 
@@ -130,6 +132,11 @@ namespace MintAnimation.Editor
                 EditorGUILayout.PropertyField(UpdaterTypeEnum);
             }
 
+            GUILayout.Space(10);
+            GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
+            
+            EditorGUILayout.PropertyField(CompleteAction);
+            
             GUILayout.Space(10);
             GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
         }

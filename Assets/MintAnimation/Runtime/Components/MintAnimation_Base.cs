@@ -1,4 +1,5 @@
 ﻿using System;
+using Game;
 using MintAnimation.Core;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace MintAnimation
         public Action                   OnComplete;
         public MintAnimationInfo        AnimationInfo;
         public bool                     IsAutoPlay = true;
-
+        public PlayEndAction            CompleteAction = PlayEndAction.None;
         private bool                    _isFristInit = true;
 
         protected MintAnimationClip<T>  mMintAnimationClip;
@@ -29,9 +30,29 @@ namespace MintAnimation
 
         protected virtual void init() {
             if (AnimationInfo.AutoStartValue && _isFristInit) AnimationInfo.SetStartValue(getter());
-            mMintAnimationClip = new MintAnimationClip<T>(getter, setter, AnimationInfo);
-            mMintAnimationClip.OnComplete += OnComplete;
+            this.mMintAnimationClip = new MintAnimationClip<T>(getter, setter, AnimationInfo);
+            this.mMintAnimationClip.OnComplete += OnComplete;
+            this.SetEndAciton();
             _isFristInit = false;
+        }
+
+        private void SetEndAciton()
+        {
+            switch (this.CompleteAction)
+            {
+                case PlayEndAction.Destory:
+                    this.mMintAnimationClip.OnComplete += () =>
+                    {
+                        Destroy(this.gameObject);
+                    };
+                    break;
+                case PlayEndAction.Disable:
+                    this.mMintAnimationClip.OnComplete += () =>
+                    {
+                        this.gameObject.SetActive(false);
+                    };
+                    break;
+            }
         }
 
         protected virtual T getter(){return default;}
