@@ -19,7 +19,7 @@ namespace MintAnimation.Core
             _getter = mintGetter;
             _setter = mintSetter;
             AnimationInfo = mintAnimationInfo;
-            Init();
+            this.Reset();
         }
 
         public Action                                           OnComplete;
@@ -35,14 +35,20 @@ namespace MintAnimation.Core
         private int                                             _nowLoopCount;
         private float                                           _backTime;
 
-        public void Init()
+        public void Reset()
         {
             _nowTime = 0;
             _isPause = true;
             _backTime = AnimationInfo.Options.Duration / 2;
+            setAnimationValue();
             register();
         }
 
+        public void RePlay()
+        {
+            this.Reset();
+            this.Play();
+        }
         public void Play() {
             _isPause = false;
         }
