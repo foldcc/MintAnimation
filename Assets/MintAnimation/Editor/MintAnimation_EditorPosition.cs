@@ -9,6 +9,10 @@ namespace MintAnimation.Editor
         private SerializedProperty IsLocalPosition;
         private SerializedProperty StartPosition;
         private SerializedProperty EndPosition;
+        
+        private SerializedProperty IsBezier;
+        private SerializedProperty BezierP1;
+        private SerializedProperty BezierP2;
 
         protected override void Init()
         {
@@ -16,6 +20,10 @@ namespace MintAnimation.Editor
             IsLocalPosition = serializedObject.FindProperty("IsLocal");
             StartPosition = serializedObject.FindProperty("StartValue");
             EndPosition = serializedObject.FindProperty("EndValue");
+            
+            IsBezier = serializedObject.FindProperty("IsBezier");
+            BezierP1 = serializedObject.FindProperty("BezierP1");
+            BezierP2 = serializedObject.FindProperty("BezierP2");
         }
 
         protected override void DrawTitle()
@@ -45,15 +53,24 @@ namespace MintAnimation.Editor
             == 0 ? true : false;
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(10);
-
+            
             if (!AutoStartValue.boolValue)
             {
                 EditorGUILayout.PropertyField(StartPosition , new GUIContent("StartPostion"));
             }
             EditorGUILayout.PropertyField(EndPosition, new GUIContent("EndPostion"));
-
+           
             GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
-
+            
+            GUILayout.Space(10);
+            EditorGUILayout.PropertyField(this.IsBezier);
+            if (this.IsBezier.boolValue)
+            {
+                EditorGUILayout.PropertyField(this.BezierP1);
+                EditorGUILayout.PropertyField(this.BezierP2);
+            }
+            
+            GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
         }
     }
 }

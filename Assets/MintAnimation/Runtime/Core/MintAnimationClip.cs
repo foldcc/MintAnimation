@@ -19,7 +19,6 @@ namespace MintAnimation.Core
             _getter = mintGetter;
             _setter = mintSetter;
             AnimationInfo = mintAnimationInfo;
-            this.Reset();
         }
 
         public Action                                           OnComplete;
@@ -121,6 +120,43 @@ namespace MintAnimation.Core
                 case DriveEnum.Globa:
                     MintDriveComponentSinge.Instance.RemoveDriveAction(updateAnimation, AnimationInfo.Options.UpdaterTypeEnum);
                     break;
+            }
+        }
+
+        /// <summary>
+        /// 获取当前播放进度
+        /// </summary>
+        /// <returns></returns>
+        public float GetPlayerProgress()
+        {
+            float mNowTime;
+            if (AnimationInfo.Options.IsBack)
+            {
+                if (_nowTime <= _backTime)
+                    mNowTime = _nowTime * 2;
+                else
+                    mNowTime = AnimationInfo.Options.Duration - (_nowTime - _backTime) * 2;
+            }
+            else
+            {
+                mNowTime = _nowTime;
+            }
+            return mNowTime / this.AnimationInfo.Options.Duration;
+        }
+
+        /// <summary>
+        /// 获取当前从startValue 到 endValue 之间的float进度
+        /// </summary>
+        /// <returns></returns>
+        public float GetProgress()
+        {
+            if (this.AnimationInfo.Options.IsCustomEase)
+            {
+                return this.AnimationInfo.Options.TimeCurve.Evaluate(this.GetPlayerProgress());
+            }
+            else
+            {
+                return MintEaseAction.GetEaseAction(this.AnimationInfo.Options.EaseType, this.GetPlayerProgress());
             }
         }
 

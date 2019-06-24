@@ -9,8 +9,19 @@ namespace MintAnimation
 
         public bool IsLocal;
 
+        public bool IsBezier;
+
+        public Vector3 BezierP1;
+        public Vector3 BezierP2;
+        
         protected override void setter(Vector3 value)
         {
+            if (this.IsBezier)
+            {
+                Bezier_3ref(ref value, this.mMintAnimationClip.AnimationInfo.StartValue, this.mMintAnimationClip.AnimationInfo.StartValue + this.BezierP1, this.mMintAnimationClip.AnimationInfo.StartValue + this.BezierP2, this.mMintAnimationClip.AnimationInfo.EndValue,
+                    this.mMintAnimationClip.GetProgress());
+            }
+            
             if (IsLocal)
                 transform.localPosition = value;
             else
@@ -28,6 +39,11 @@ namespace MintAnimation
         protected override MintAnimationDataBase<Vector3> SetAnimationInfo()
         {
             return new MintAnimationDataVector3();
+        }
+        
+        public static void Bezier_3ref(ref Vector3 outValue , Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
+        {
+            outValue = (1 - t) * ((1 - t) * ((1 - t) * p0 + t * p1) + t * ((1 - t) * p1 + t * p2)) + t * ((1 - t) * ((1 - t) * p1 + t * p2) + t * ((1 - t) * p2 + t * p3));
         }
     }
 }
