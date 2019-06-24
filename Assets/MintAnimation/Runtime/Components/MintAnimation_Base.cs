@@ -53,6 +53,9 @@ namespace MintAnimation
                 case PlayEndAction.Disable:
                     this.gameObject.SetActive(false);
                     break;
+                case PlayEndAction.DestoryAnimation:
+                    Destroy(this);
+                    break;
             }
         }
 
@@ -61,12 +64,12 @@ namespace MintAnimation
 
         public void Play()
         {
-            this.mMintAnimationClip.RePlay();
+            this.mMintAnimationClip.Play();
         }
 
         public void Pause()
         {
-            mMintAnimationClip.Pause();
+            mMintAnimationClip.Pause(!mMintAnimationClip.IsPause);
         }
 
         public void Stop()

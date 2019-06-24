@@ -7,6 +7,7 @@ namespace Game
 	{
 		None,
 		Disable,
-		Destory
+		Destory,
+		DestoryAnimation
 	}
 }

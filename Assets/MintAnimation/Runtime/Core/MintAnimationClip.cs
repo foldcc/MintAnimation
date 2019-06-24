@@ -8,7 +8,7 @@ namespace MintAnimation.Core
 
     public delegate void MintSetter<in T>(T rNewValue);
 
-    public class MintAnimationClip<T>
+    public class MintAnimationClip<T> : IDisposable
     {
         /// <summary>
         /// 请使用Create方法构建MintAnimation
@@ -19,50 +19,49 @@ namespace MintAnimation.Core
             _getter = mintGetter;
             _setter = mintSetter;
             AnimationInfo = mintAnimationInfo;
+            register();
         }
 
         public Action                                           OnComplete;
 
         public MintAnimationDataBase<T>                         AnimationInfo;
 
+        public bool                                             IsPause { get; private set; }
+
         private MintGetter<T>                                   _getter;
         private MintSetter<T>                                   _setter;
 
         private float                                           _nowTime;
-        private bool                                            _isPause;
+        
 
         private int                                             _nowLoopCount;
         private float                                           _backTime;
 
-        public void Reset()
-        {
-            _nowTime = 0;
-            _isPause = true;
-            _backTime = AnimationInfo.Options.Duration / 2;
-            setAnimationValue();
-            register();
-        }
-
-        public void RePlay()
-        {
-            this.Reset();
-            this.Play();
-        }
+        
         public void Play() {
-            _isPause = false;
+            this.reset();
+            this.IsPause = false;
         }
-        public void Pause() {
-            _isPause = true;
+        public void Pause(bool isPause) {
+            this.IsPause = isPause;
         }
         public void Stop() {
             _nowTime = AnimationInfo.Options.Duration;
             setAnimationValue();
-            _isPause = true;
-            unregister();
+            this.IsPause = true;
+        }
+        
+        
+        private void reset()
+        {
+            _nowTime = 0;
+            this.IsPause = true;
+            _backTime = AnimationInfo.Options.Duration / 2;
+            setAnimationValue();
         }
 
         private bool updateAnimation(float deltaTime) {
-            if (_isPause) return false;
+            if (this.IsPause) return false;
             setAnimationValue();
             if (_nowTime >= AnimationInfo.Options.Duration) {
                 _nowLoopCount++;
@@ -187,6 +186,10 @@ namespace MintAnimation.Core
             var a = new MintAnimationClip<Color>(mintGetter, mintSetter, mintAnimationInfo);
             return a;
         }
-        
+
+        public void Dispose()
+        {
+            this.unregister();
+        }
     }
 }
