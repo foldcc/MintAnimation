@@ -18,7 +18,7 @@
     }
   ],
   "dependencies": {
-    "com.foldcc.mintanimation": "0.1.1",
+    "com.foldcc.mintanimation": "0.1.5",
   }
 }
 ```
