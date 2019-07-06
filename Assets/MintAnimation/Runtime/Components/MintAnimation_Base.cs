@@ -64,6 +64,7 @@ namespace MintAnimation
 
         public void Play()
         {
+            this.mMintAnimationClip.AnimationInfo.Options = this.MintAnimationOptions;
             this.mMintAnimationClip.Play();
         }
 

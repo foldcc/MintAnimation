@@ -19,6 +19,7 @@ namespace MintAnimation.Core
             _getter = mintGetter;
             _setter = mintSetter;
             AnimationInfo = mintAnimationInfo;
+            this.IsPause = true;
             register();
         }
 
@@ -33,11 +34,9 @@ namespace MintAnimation.Core
 
         private float                                           _nowTime;
         
-
         private int                                             _nowLoopCount;
         private float                                           _backTime;
 
-        
         public void Play() {
             this.reset();
             this.IsPause = false;
