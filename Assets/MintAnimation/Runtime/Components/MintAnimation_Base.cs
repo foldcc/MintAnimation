@@ -33,18 +33,21 @@ namespace MintAnimation
         protected virtual void init()
         {
             MintAnimationDataBase<T> animationInfo = SetAnimationInfo();
+            if (MintAnimationOptions.AutoStartValue)
+            {
+                this.StartValue = this.getter();
+            }
             animationInfo.StartValue = StartValue;
             animationInfo.EndValue = EndValue;
             animationInfo.Options = MintAnimationOptions;
-            if (MintAnimationOptions.AutoStartValue) animationInfo.SetStartValue(getter());
             mMintAnimationClip = new MintAnimationClip<T>(getter, setter, animationInfo);
-            mMintAnimationClip.OnComplete += OnComplete;
             mMintAnimationClip.OnComplete += this.OnCompleteAction;
             _isFristInit = false;
         }
 
         public void OnCompleteAction()
         {
+            this.OnComplete?.Invoke();
             switch (CompleteAction)
             {
                 case PlayEndAction.Destory:
@@ -64,6 +67,8 @@ namespace MintAnimation
 
         public void Play()
         {
+            this.mMintAnimationClip.AnimationInfo.StartValue = this.StartValue;
+            this.mMintAnimationClip.AnimationInfo.EndValue = this.EndValue;
             this.mMintAnimationClip.AnimationInfo.Options = this.MintAnimationOptions;
             this.mMintAnimationClip.Play();
         }
