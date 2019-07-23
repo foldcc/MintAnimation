@@ -1,3 +1,7 @@
+## [0.1.9]-2019-7-24
+- 增加“IsReversal”属性，用于控制动画的反向播放
+- 优化核心逻辑的结构
+- 更新扩展方法
 ## [0.1.5]-2019-7-2
 - Add Bezier in Position Component
 - Add Played Default Action
