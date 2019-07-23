@@ -16,7 +16,7 @@ namespace MintAnimation
         public PlayEndAction            CompleteAction = PlayEndAction.None;
         
         private bool                    _isFristInit = true;
-        protected MintAnimationClip<T>  mMintAnimationClip;
+        protected MintTweener<T>        mMintTweener;
         private void OnEnable()
         {
             if (_isFristInit) init();
@@ -40,8 +40,8 @@ namespace MintAnimation
             animationInfo.StartValue = StartValue;
             animationInfo.EndValue = EndValue;
             animationInfo.Options = MintAnimationOptions;
-            mMintAnimationClip = new MintAnimationClip<T>(getter, setter, animationInfo);
-            mMintAnimationClip.OnComplete += this.OnCompleteAction;
+            mMintTweener = new MintTweener<T>(getter, setter, animationInfo);
+            mMintTweener.OnComplete += this.OnCompleteAction;
             _isFristInit = false;
         }
 
@@ -67,20 +67,20 @@ namespace MintAnimation
 
         public void Play()
         {
-            this.mMintAnimationClip.AnimationInfo.StartValue = this.StartValue;
-            this.mMintAnimationClip.AnimationInfo.EndValue = this.EndValue;
-            this.mMintAnimationClip.AnimationInfo.Options = this.MintAnimationOptions;
-            this.mMintAnimationClip.Play();
+            this.mMintTweener.AnimationInfo.StartValue = this.StartValue;
+            this.mMintTweener.AnimationInfo.EndValue = this.EndValue;
+            this.mMintTweener.AnimationInfo.Options = this.MintAnimationOptions;
+            this.mMintTweener.Play();
         }
 
         public void Pause()
         {
-            mMintAnimationClip.Pause(!mMintAnimationClip.IsPause);
+            mMintTweener.Pause(!mMintTweener.IsPause);
         }
 
         public void Stop()
         {
-            mMintAnimationClip.Stop();
+            mMintTweener.Stop();
         }
 
         protected virtual MintAnimationDataBase<T> SetAnimationInfo()

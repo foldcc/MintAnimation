@@ -18,8 +18,8 @@ namespace MintAnimation
         {
             if (this.IsBezier)
             {
-                Bezier_3ref(ref value, this.mMintAnimationClip.AnimationInfo.StartValue, this.mMintAnimationClip.AnimationInfo.StartValue + this.BezierP1, this.mMintAnimationClip.AnimationInfo.StartValue + this.BezierP2, this.mMintAnimationClip.AnimationInfo.EndValue,
-                    this.mMintAnimationClip.GetProgress());
+                Bezier_3ref(ref value, this.mMintTweener.AnimationInfo.StartValue, this.mMintTweener.AnimationInfo.StartValue + this.BezierP1, this.mMintTweener.AnimationInfo.StartValue + this.BezierP2, this.mMintTweener.AnimationInfo.EndValue,
+                    this.mMintTweener.GetProgress());
             }
             
             if (IsLocal)

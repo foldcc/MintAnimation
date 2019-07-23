@@ -16,6 +16,7 @@ namespace MintAnimation.Editor
 
         private SerializedProperty IsBack;
         private SerializedProperty IsLoop;
+        private SerializedProperty IsReversal;
         private SerializedProperty LoopCount;
 
         private SerializedProperty IsCustomEase;
@@ -56,6 +57,7 @@ namespace MintAnimation.Editor
             IsAuto = this.serializedObject.FindProperty("IsAutoPlay");
             IsBack = AnimationInfo.FindPropertyRelative("IsBack");
             IsLoop = AnimationInfo.FindPropertyRelative("IsLoop");
+            IsReversal = AnimationInfo.FindPropertyRelative("IsReversal");
             LoopCount = AnimationInfo.FindPropertyRelative("LoopCount");
             IsCustomEase = AnimationInfo.FindPropertyRelative("IsCustomEase");
             EaseType = AnimationInfo.FindPropertyRelative("EaseType");
@@ -74,9 +76,7 @@ namespace MintAnimation.Editor
             this.serializedObject.Update();
             DrawTitle();
             this.foldoutType = EditorGUILayout.Foldout(foldoutType, "Mint Animation Info");
-            if (this.foldoutType) {
-                Draw();
-            }
+            Draw();
             // 应用属性修改
             this.serializedObject.ApplyModifiedProperties();
         }
@@ -86,59 +86,59 @@ namespace MintAnimation.Editor
             GUILayout.Space(15);
             EditorGUILayout.PropertyField(Duration);
             if (this.Duration.floatValue < 0) this.Duration.floatValue = 0;
-            GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(IsAuto);
-            EditorGUILayout.PropertyField(IsBack);
-            EditorGUILayout.EndHorizontal();
-
-            GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(IsLoop);
-            if (this.IsLoop.boolValue)
+            if (this.foldoutType)
             {
-                EditorGUILayout.PropertyField(LoopCount);
-                if (this.LoopCount.intValue == 0 || this.LoopCount.intValue < -1) this.LoopCount.intValue = 1;
+                GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
+                EditorGUILayout.PropertyField(IsAuto);
+                EditorGUILayout.PropertyField(IsReversal);
+                EditorGUILayout.PropertyField(IsBack);
+                GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.PropertyField(IsLoop);
+                if (this.IsLoop.boolValue)
+                {
+                    EditorGUILayout.PropertyField(LoopCount);
+                    if (this.LoopCount.intValue == 0 || this.LoopCount.intValue < -1) this.LoopCount.intValue = 1;
+                }
+                EditorGUILayout.EndHorizontal();
+
+                GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
+
+                EditorGUILayout.PropertyField(IsCustomEase);
+                if (this.IsCustomEase.boolValue)
+                {
+
+                    EditorGUILayout.PropertyField(TimeCurve);
+                    EditorGUILayout.HelpBox("注：自定义曲线 只会读取 x为[0-1]之间的数值", MessageType.Info);
+                }
+                else
+                {
+                    EditorGUILayout.PropertyField(EaseType);
+                }
+
+                GUILayout.Space(10);
+                GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
+
+                EditorGUILayout.PropertyField(DriveType);
+                if (DriveType.enumValueIndex == 0)
+                {
+                    //custom
+                    EditorGUILayout.PropertyField(CustomDrive);
+                }
+                else
+                {
+                    EditorGUILayout.PropertyField(UpdaterTypeEnum);
+                }
+
+                GUILayout.Space(10);
+                GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
+
+                EditorGUILayout.PropertyField(CompleteAction);
+
+                GUILayout.Space(10);
+                GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
             }
-            EditorGUILayout.EndHorizontal();
-
-            GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
-
-            EditorGUILayout.PropertyField(IsCustomEase);
-            if (this.IsCustomEase.boolValue)
-            {
-
-                EditorGUILayout.PropertyField(TimeCurve);
-                EditorGUILayout.HelpBox("注：自定义曲线 只会读取 x为[0-1]之间的数值", MessageType.Info);
-            }
-            else
-            {
-                EditorGUILayout.PropertyField(EaseType);
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
-
-            EditorGUILayout.PropertyField(DriveType);
-            if (DriveType.enumValueIndex == 0)
-            {
-                //custom
-                EditorGUILayout.PropertyField(CustomDrive);
-            }
-            else
-            {
-                EditorGUILayout.PropertyField(UpdaterTypeEnum);
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
-            
-            EditorGUILayout.PropertyField(CompleteAction);
-            
-            GUILayout.Space(10);
-            GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
         }
 
         protected virtual void DrawTitle()

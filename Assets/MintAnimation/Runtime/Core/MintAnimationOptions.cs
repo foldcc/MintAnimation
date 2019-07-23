@@ -9,6 +9,7 @@ namespace MintAnimation.Core
 
         public bool                 IsBack;
         public bool                 IsLoop;
+        public bool                 IsReversal;
         public int                  LoopCount = -1;
        
         public bool                 IsCustomEase = false;

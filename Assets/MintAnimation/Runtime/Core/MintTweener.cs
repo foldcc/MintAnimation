@@ -8,14 +8,14 @@ namespace MintAnimation.Core
 
     public delegate void MintSetter<in T>(T rNewValue);
 
-    public class MintAnimationClip<T> : IDisposable
+    public class MintTweener<T> : IDisposable
     {
         /// <summary>
         /// 请使用Create方法构建MintAnimation
         /// </summary>
-        protected MintAnimationClip() {}
+        protected MintTweener() {}
 
-        public MintAnimationClip(MintGetter<T> mintGetter, MintSetter<T> mintSetter , MintAnimationDataBase<T> mintAnimationInfo) {
+        public MintTweener(MintGetter<T> mintGetter, MintSetter<T> mintSetter , MintAnimationDataBase<T> mintAnimationInfo) {
             _getter = mintGetter;
             _setter = mintSetter;
             AnimationInfo = mintAnimationInfo;
@@ -33,6 +33,7 @@ namespace MintAnimation.Core
         private MintSetter<T>                                   _setter;
 
         private float                                           _nowTime;
+        private float                                           _progressValue;
         
         private int                                             _nowLoopCount;
         private float                                           _backTime;
@@ -78,19 +79,32 @@ namespace MintAnimation.Core
             else _nowTime += deltaTime;
             return true;
         }
+
+        /// <summary>
+        /// 获取处理后的Value进度值
+        /// </summary>
+        /// <returns></returns>
+        private float getNowTime() {
+            if (AnimationInfo.Options.IsReversal) {
+                return AnimationInfo.Options.Duration - _progressValue;
+            }
+            return _progressValue;
+        }
+
         private void setAnimationValue()
         {
             if (AnimationInfo.Options.IsBack)
             {
                 if (_nowTime <= _backTime)
-                    _setter.Invoke(AnimationInfo.GetProgress(_nowTime * 2));
+                    _progressValue = _nowTime * 2;
                 else
-                    _setter.Invoke(AnimationInfo.GetProgress(AnimationInfo.Options.Duration - ((_nowTime - _backTime) * 2)));
+                    _progressValue = AnimationInfo.Options.Duration - ((_nowTime - _backTime) * 2);
             }
             else
             {
-                _setter.Invoke(AnimationInfo.GetProgress(_nowTime));
+                _progressValue = _nowTime;
             }
+            _setter.Invoke(AnimationInfo.GetProgress(getNowTime()));
         }
 
         private void register() {
@@ -127,19 +141,7 @@ namespace MintAnimation.Core
         /// <returns></returns>
         public float GetPlayerProgress()
         {
-            float mNowTime;
-            if (AnimationInfo.Options.IsBack)
-            {
-                if (_nowTime <= _backTime)
-                    mNowTime = _nowTime * 2;
-                else
-                    mNowTime = AnimationInfo.Options.Duration - (_nowTime - _backTime) * 2;
-            }
-            else
-            {
-                mNowTime = _nowTime;
-            }
-            return mNowTime / this.AnimationInfo.Options.Duration;
+            return _nowTime / this.AnimationInfo.Options.Duration;
         }
 
         /// <summary>
@@ -150,39 +152,39 @@ namespace MintAnimation.Core
         {
             if (this.AnimationInfo.Options.IsCustomEase)
             {
-                return this.AnimationInfo.Options.TimeCurve.Evaluate(this.GetPlayerProgress());
+                return this.AnimationInfo.Options.TimeCurve.Evaluate(this.getNowTime());
             }
             else
             {
-                return MintEaseAction.GetEaseAction(this.AnimationInfo.Options.EaseType, this.GetPlayerProgress());
+                return MintEaseAction.GetEaseAction(this.AnimationInfo.Options.EaseType, this.getNowTime());
             }
         }
 
-        public static MintAnimationClip<float> Create(MintGetter<float> mintGetter, MintSetter<float> mintSetter, float endvalue, float duration)
+        public static MintTweener<float> Create(MintGetter<float> mintGetter, MintSetter<float> mintSetter, float endvalue, float duration)
         {
             MintAnimationDataBase<float> mintAnimationInfo = new MintAnimtaionDataFloat();
             mintAnimationInfo.Options = new MintAnimationOptions(){ EaseType = MintEaseMethod.Linear , AutoStartValue = true , Duration = duration};
             mintAnimationInfo.StartValue = mintGetter.Invoke();
             mintAnimationInfo.EndValue = endvalue;
-            var a = new MintAnimationClip<float>(mintGetter, mintSetter, mintAnimationInfo);
+            var a = new MintTweener<float>(mintGetter, mintSetter, mintAnimationInfo);
             return a;
         }
-        public static MintAnimationClip<Vector3> Create(MintGetter<Vector3> mintGetter, MintSetter<Vector3> mintSetter, Vector3 endvalue, float duration)
+        public static MintTweener<Vector3> Create(MintGetter<Vector3> mintGetter, MintSetter<Vector3> mintSetter, Vector3 endvalue, float duration)
         {
             MintAnimationDataBase<Vector3> mintAnimationInfo = new MintAnimationDataVector3();
             mintAnimationInfo.Options = new MintAnimationOptions(){ EaseType = MintEaseMethod.Linear , AutoStartValue = true , Duration = duration};
             mintAnimationInfo.StartValue = mintGetter.Invoke();
             mintAnimationInfo.EndValue = endvalue;
-            var a = new MintAnimationClip<Vector3>(mintGetter, mintSetter, mintAnimationInfo);
+            var a = new MintTweener<Vector3>(mintGetter, mintSetter, mintAnimationInfo);
             return a;
         }
-        public static MintAnimationClip<Color> Create(MintGetter<Color> mintGetter, MintSetter<Color> mintSetter, Color endvalue, float duration)
+        public static MintTweener<Color> Create(MintGetter<Color> mintGetter, MintSetter<Color> mintSetter, Color endvalue, float duration)
         {
             MintAnimationDataBase<Color> mintAnimationInfo = new MintAnimationDataColor();
             mintAnimationInfo.Options = new MintAnimationOptions(){ EaseType = MintEaseMethod.Linear , AutoStartValue = true , Duration = duration};
             mintAnimationInfo.StartValue = mintGetter.Invoke();
             mintAnimationInfo.EndValue = endvalue;
-            var a = new MintAnimationClip<Color>(mintGetter, mintSetter, mintAnimationInfo);
+            var a = new MintTweener<Color>(mintGetter, mintSetter, mintAnimationInfo);
             return a;
         }
 

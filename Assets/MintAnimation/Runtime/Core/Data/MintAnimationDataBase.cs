@@ -13,12 +13,6 @@ namespace MintAnimation.Core
         {
             return default;
         }
-
-        public void SetStartValue(T value)
-        {
-            StartValue = value;
-        }
-
     }
 }
 
