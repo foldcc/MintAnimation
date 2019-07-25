@@ -10,6 +10,9 @@ namespace MintAnimation {
     {
         private CanvasGroup mCanvasGroup;
 
+        [SerializeField]
+        private MintAnimationDataFloat MintAnimationData = new MintAnimationDataFloat();
+        
         protected override void init()
         {
             mCanvasGroup = GetComponent<CanvasGroup>();
@@ -26,10 +29,11 @@ namespace MintAnimation {
             mCanvasGroup.alpha = value;
         }
 
-        protected override MintAnimationDataBase<float> SetAnimationInfo()
+        protected override MintAnimationData<float> getAnimationData()
         {
-            return new MintAnimtaionDataFloat();
+            return MintAnimationData;
         }
+
     }
 
 }

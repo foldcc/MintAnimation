@@ -7,16 +7,20 @@ namespace MintAnimation
     [AddComponentMenu("MintAnimation/ColorAnimation" , 1)]
     public class MintAnimation_Color : MintAnimation_Base<Color>
     {
+        [SerializeField]
+        private MintAnimationDataColor MintAnimationData = new MintAnimationDataColor();
+        
         private Color               mGetColor;
         private Graphic             mGrahic;
         private Material            mMaterail;
-
+        
+        
         protected override void init()
         {
             this.mGrahic = this.gameObject.GetComponent<Graphic>();
             var m = this.gameObject.GetComponent<MeshRenderer>();
             if (m != null) this.mMaterail = m.material;
-            MintAnimationOptions.AutoStartValue = false;
+            MintAnimationData.AutoStartValue = false;
             base.init();
         }
 
@@ -38,10 +42,9 @@ namespace MintAnimation
                 this.mMaterail.color = rColor;
             }
         }
-
-        protected override MintAnimationDataBase<Color> SetAnimationInfo()
+        protected override MintAnimationData<Color> getAnimationData()
         {
-            return new MintAnimationDataColor();
+            return MintAnimationData;
         }
     }
 }

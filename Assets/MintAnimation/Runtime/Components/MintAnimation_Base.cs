@@ -1,26 +1,18 @@
-﻿using System;
-using Game;
-using MintAnimation.Core;
+﻿using MintAnimation.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MintAnimation
 {
 	public abstract class MintAnimation_Base<T> : MonoBehaviour
-	{
-        public Action                   OnComplete;
-        public MintAnimationOptions     MintAnimationOptions = new MintAnimationOptions();
-        public bool                     IsAutoPlay = true;
-        public T                        StartValue;
-        public T                        EndValue;
-
-        public PlayEndAction            CompleteAction = PlayEndAction.None;
+    {
+        protected MintTweener<T>         mMintTweener;
+        private bool                     _isFristInit = true;
         
-        private bool                    _isFristInit = true;
-        protected MintTweener<T>        mMintTweener;
         private void OnEnable()
         {
             if (_isFristInit) init();
-            if (IsAutoPlay)
+            if (getAnimationData().IsAutoPlay)
             {
                 Play();
             }
@@ -29,26 +21,23 @@ namespace MintAnimation
         {
             Stop();
         }
+        
 
         protected virtual void init()
         {
-            MintAnimationDataBase<T> animationInfo = SetAnimationInfo();
-            if (MintAnimationOptions.AutoStartValue)
+            if (getAnimationData().AutoStartValue)
             {
-                this.StartValue = this.getter();
+                this.getAnimationData().StartValue = this.getter();
             }
-            animationInfo.StartValue = StartValue;
-            animationInfo.EndValue = EndValue;
-            animationInfo.Options = MintAnimationOptions;
-            mMintTweener = new MintTweener<T>(getter, setter, animationInfo);
+            mMintTweener = new MintTweener<T>(getter, setter, getAnimationData());
             mMintTweener.OnComplete += this.OnCompleteAction;
             _isFristInit = false;
         }
 
         public void OnCompleteAction()
         {
-            this.OnComplete?.Invoke();
-            switch (CompleteAction)
+            this.getAnimationData().OnComplete?.Invoke();
+            switch (getAnimationData().CompleteAction)
             {
                 case PlayEndAction.Destory:
                     Destroy(this.gameObject);
@@ -67,9 +56,9 @@ namespace MintAnimation
 
         public void Play()
         {
-            this.mMintTweener.AnimationInfo.StartValue = this.StartValue;
-            this.mMintTweener.AnimationInfo.EndValue = this.EndValue;
-            this.mMintTweener.AnimationInfo.Options = this.MintAnimationOptions;
+//            this.mMintTweener.TweenInfo.StartValue = this.StartValue;
+//            this.mMintTweener.TweenInfo.EndValue = this.EndValue;
+//            this.mMintTweener.TweenInfo.SetOptions(this.MintAnimationOptions);
             this.mMintTweener.Play();
         }
 
@@ -83,9 +72,6 @@ namespace MintAnimation
             mMintTweener.Stop();
         }
 
-        protected virtual MintAnimationDataBase<T> SetAnimationInfo()
-        {
-            return null;
-        }
+        protected abstract MintAnimationData<T> getAnimationData();
     }
 }

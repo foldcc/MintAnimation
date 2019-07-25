@@ -7,6 +7,9 @@ namespace MintAnimation
     public class MintAnimation_Position : MintAnimation_Base<Vector3>
     {
 
+        [SerializeField]
+        private MintAnimationDataVector MintAnimationData = new MintAnimationDataVector();
+        
         public bool IsLocal;
 
         public bool IsBezier;
@@ -18,7 +21,7 @@ namespace MintAnimation
         {
             if (this.IsBezier)
             {
-                Bezier_3ref(ref value, this.mMintTweener.AnimationInfo.StartValue, this.mMintTweener.AnimationInfo.StartValue + this.BezierP1, this.mMintTweener.AnimationInfo.StartValue + this.BezierP2, this.mMintTweener.AnimationInfo.EndValue,
+                Bezier_3ref(ref value, this.mMintTweener.TweenInfo.StartValue, this.mMintTweener.TweenInfo.StartValue + this.BezierP1, this.mMintTweener.TweenInfo.StartValue + this.BezierP2, this.mMintTweener.TweenInfo.EndValue,
                     this.mMintTweener.GetProgress());
             }
             
@@ -26,6 +29,11 @@ namespace MintAnimation
                 transform.localPosition = value;
             else
                 transform.position = value;
+        }
+
+        protected override MintAnimationData<Vector3> getAnimationData()
+        {
+            return MintAnimationData;
         }
 
         protected override Vector3 getter()
@@ -36,11 +44,6 @@ namespace MintAnimation
                 return transform.position;
         }
 
-        protected override MintAnimationDataBase<Vector3> SetAnimationInfo()
-        {
-            return new MintAnimationDataVector3();
-        }
-        
         public static void Bezier_3ref(ref Vector3 outValue , Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
         {
             outValue = (1 - t) * ((1 - t) * ((1 - t) * p0 + t * p1) + t * ((1 - t) * p1 + t * p2)) + t * ((1 - t) * ((1 - t) * p1 + t * p2) + t * ((1 - t) * p2 + t * p3));
