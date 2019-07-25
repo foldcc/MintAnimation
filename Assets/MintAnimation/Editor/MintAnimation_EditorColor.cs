@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace MintAnimation.Editor
 {
-    [CustomEditor(typeof(MintAnimation.MintAnimation_Color), true)]
+    [CustomEditor(typeof(MintAnimation.MintAnimation_Color), true), CanEditMultipleObjects]
     public class MintAnimation_EditorColor : MintAnimation_EditorBase
     {
         protected override void Init()
@@ -15,8 +15,8 @@ namespace MintAnimation.Editor
         public override void Draw()
         {
             base.Draw();
-            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("StartValue"));
-            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("EndValue"));
+            EditorGUILayout.PropertyField(this.MintAnimData.FindPropertyRelative("StartValue"));
+            EditorGUILayout.PropertyField(this.MintAnimData.FindPropertyRelative("EndValue"));
         }
 
         protected override void DrawTitle()

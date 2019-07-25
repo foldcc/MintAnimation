@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 
 namespace MintAnimation.Editor
@@ -8,24 +6,24 @@ namespace MintAnimation.Editor
     [CanEditMultipleObjects]
     public class MintAnimation_EditorBase : UnityEditor.Editor
     {
-        protected SerializedProperty AnimationInfo;
+        protected SerializedProperty MintAnimData;
 
-        private SerializedProperty Duration;
+        protected SerializedProperty Duration;
 
-        private SerializedProperty IsAuto;
+        protected SerializedProperty IsAuto;
 
-        private SerializedProperty IsBack;
-        private SerializedProperty IsLoop;
-        private SerializedProperty IsReversal;
-        private SerializedProperty LoopCount;
+        protected SerializedProperty IsBack;
+        protected SerializedProperty IsLoop;
+        protected SerializedProperty IsReversal;
+        protected SerializedProperty LoopCount;
 
-        private SerializedProperty IsCustomEase;
-        private SerializedProperty EaseType;
-        private SerializedProperty TimeCurve;
+        protected SerializedProperty IsCustomEase;
+        protected SerializedProperty EaseType;
+        protected SerializedProperty TimeCurve;
 
-        private SerializedProperty DriveType;
-        private SerializedProperty UpdaterTypeEnum;
-        private SerializedProperty CustomDrive; 
+        protected SerializedProperty DriveType;
+        protected SerializedProperty UpdaterTypeEnum;
+        protected SerializedProperty CustomDrive; 
 
         protected SerializedProperty AutoStartValue;
         protected SerializedProperty CompleteAction;
@@ -52,23 +50,22 @@ namespace MintAnimation.Editor
 
         protected virtual void Init()
         {
-            AnimationInfo = this.serializedObject.FindProperty("MintAnimationOptions");
-            Duration = AnimationInfo.FindPropertyRelative("Duration");
-            IsAuto = this.serializedObject.FindProperty("IsAutoPlay");
-            IsBack = AnimationInfo.FindPropertyRelative("IsBack");
-            IsLoop = AnimationInfo.FindPropertyRelative("IsLoop");
-            IsReversal = AnimationInfo.FindPropertyRelative("IsReversal");
-            LoopCount = AnimationInfo.FindPropertyRelative("LoopCount");
-            IsCustomEase = AnimationInfo.FindPropertyRelative("IsCustomEase");
-            EaseType = AnimationInfo.FindPropertyRelative("EaseType");
-            TimeCurve = AnimationInfo.FindPropertyRelative("TimeCurve");
-            DriveType = AnimationInfo.FindPropertyRelative("DriveType");
-            UpdaterTypeEnum = AnimationInfo.FindPropertyRelative("UpdaterTypeEnum");
-            CustomDrive = AnimationInfo.FindPropertyRelative("CustomDrive");
-            AutoStartValue = AnimationInfo.FindPropertyRelative("AutoStartValue");
-            CompleteAction = this.serializedObject.FindProperty("CompleteAction");
+            MintAnimData = this.serializedObject.FindProperty("MintAnimationData");
+            Duration = this.MintAnimData.FindPropertyRelative("Duration");
+            IsAuto = this.MintAnimData.FindPropertyRelative("IsAutoPlay");
+            AutoStartValue =  this.MintAnimData.FindPropertyRelative("AutoStartValue");
+            IsBack = this.MintAnimData.FindPropertyRelative("IsBack");
+            IsLoop = this.MintAnimData.FindPropertyRelative("IsLoop");
+            IsReversal = this.MintAnimData.FindPropertyRelative("IsReversal");
+            LoopCount =    this.MintAnimData.FindPropertyRelative("LoopCount");
+            IsCustomEase = this.MintAnimData.FindPropertyRelative("IsCustomEase");
+            EaseType =     this.MintAnimData.FindPropertyRelative("EaseType");
+            TimeCurve =    this.MintAnimData.FindPropertyRelative("TimeCurve");
+            DriveType =    this.MintAnimData.FindPropertyRelative("DriveType");
+            UpdaterTypeEnum = this.MintAnimData.FindPropertyRelative("UpdaterTypeEnum");
+            CustomDrive =     this.MintAnimData.FindPropertyRelative("CustomDrive");
+            CompleteAction =  this.MintAnimData.FindPropertyRelative("CompleteAction");
         }
-
 
         public override void OnInspectorGUI()
         {

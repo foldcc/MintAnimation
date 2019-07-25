@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MintAnimation.Editor {
 
-    [CustomEditor(typeof(MintAnimation.MintAnimation_CanvasAlpha), true)]
+    [CustomEditor(typeof(MintAnimation.MintAnimation_CanvasAlpha), true), CanEditMultipleObjects]
     public class MintAnimation_EditorCanvasAlpha : MintAnimation_EditorBase
     {
         private SerializedProperty StartAlpha;
@@ -12,8 +12,8 @@ namespace MintAnimation.Editor {
         protected override void Init()
         {
             base.Init();
-            StartAlpha = serializedObject.FindProperty("StartValue");
-            EndAlpha =   serializedObject.FindProperty("EndValue");
+            StartAlpha =  MintAnimData.FindPropertyRelative("StartValue");
+            EndAlpha =    MintAnimData.FindPropertyRelative("EndValue");
         }
 
 

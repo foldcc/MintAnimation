@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace MintAnimation.Editor
 {
-    [CustomEditor(typeof(MintAnimation.MintAnimation_Scale), true)]
+    [CustomEditor(typeof(MintAnimation.MintAnimation_Scale), true), CanEditMultipleObjects]
     public class MintAnimation_EditorScale : MintAnimation_EditorBase
     {
         private SerializedProperty StartScale;
@@ -12,8 +12,8 @@ namespace MintAnimation.Editor
         protected override void Init()
         {
             base.Init();
-            StartScale = serializedObject.FindProperty("StartValue");
-            EndScale = serializedObject.FindProperty("EndValue");
+            StartScale =  MintAnimData.FindPropertyRelative("StartValue");
+            EndScale =  MintAnimData.FindPropertyRelative("EndValue");
         }
 
         protected override void DrawTitle()

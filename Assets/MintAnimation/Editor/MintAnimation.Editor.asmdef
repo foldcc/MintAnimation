@@ -1,7 +1,8 @@
 {
     "name": "MintAnimation.Editor",
     "references": [
-        "MintAnimation"
+        "MintAnimation",
+        "MintAnimation.Core"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

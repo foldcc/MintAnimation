@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace MintAnimation.Editor
 {
-    [CustomEditor(typeof(MintAnimation.MintAnimation_Position), true)]
+    [CustomEditor(typeof(MintAnimation.MintAnimation_Position), true), CanEditMultipleObjects]
     public class MintAnimation_EditorPosition : MintAnimation_EditorBase
     {
         private SerializedProperty IsLocalPosition;
@@ -18,8 +18,8 @@ namespace MintAnimation.Editor
         {
             base.Init();
             IsLocalPosition = serializedObject.FindProperty("IsLocal");
-            StartPosition = serializedObject.FindProperty("StartValue");
-            EndPosition = serializedObject.FindProperty("EndValue");
+            StartPosition = MintAnimData.FindPropertyRelative("StartValue");
+            EndPosition = MintAnimData.FindPropertyRelative("EndValue");
             
             IsBezier = serializedObject.FindProperty("IsBezier");
             BezierP1 = serializedObject.FindProperty("BezierP1");
