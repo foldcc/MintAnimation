@@ -15,17 +15,17 @@ namespace MintAnimation.Core
         /// </summary>
         protected MintTweener() {}
 
-        public MintTweener(MintGetter<T> mintGetter, MintSetter<T> mintSetter , MintAnimationDataBase<T> mintAnimationInfo) {
+        public MintTweener(MintGetter<T> mintGetter, MintSetter<T> mintSetter , MintTweenDataBase<T> mintTweenInfo) {
             _getter = mintGetter;
             _setter = mintSetter;
-            AnimationInfo = mintAnimationInfo;
+            TweenInfo = mintTweenInfo;
             this.IsPause = true;
             register();
         }
 
         public Action                                           OnComplete;
 
-        public MintAnimationDataBase<T>                         AnimationInfo;
+        public MintTweenDataBase<T>                         TweenInfo;
 
         public bool                                             IsPause { get; private set; }
 
@@ -46,7 +46,7 @@ namespace MintAnimation.Core
             this.IsPause = isPause;
         }
         public void Stop() {
-            _nowTime = AnimationInfo.Options.Duration;
+            _nowTime = TweenInfo.Duration;
             setAnimationValue();
             this.IsPause = true;
         }
@@ -56,18 +56,18 @@ namespace MintAnimation.Core
         {
             _nowTime = 0;
             this.IsPause = true;
-            _backTime = AnimationInfo.Options.Duration / 2;
+            _backTime = TweenInfo.Duration / 2;
             setAnimationValue();
         }
 
         private bool updateAnimation(float deltaTime) {
             if (this.IsPause) return false;
             setAnimationValue();
-            if (_nowTime >= AnimationInfo.Options.Duration) {
+            if (_nowTime >= TweenInfo.Duration) {
                 _nowLoopCount++;
-                if (AnimationInfo.Options.IsLoop)
+                if (TweenInfo.IsLoop)
                 {
-                    if (AnimationInfo.Options.LoopCount == -1 || _nowLoopCount < AnimationInfo.Options.LoopCount)
+                    if (TweenInfo.LoopCount == -1 || _nowLoopCount < TweenInfo.LoopCount)
                     {
                         _nowTime = 0;
                         return true;
@@ -85,52 +85,52 @@ namespace MintAnimation.Core
         /// </summary>
         /// <returns></returns>
         private float getNowTime() {
-            if (AnimationInfo.Options.IsReversal) {
-                return AnimationInfo.Options.Duration - _progressValue;
+            if (TweenInfo.IsReversal) {
+                return TweenInfo.Duration - _progressValue;
             }
             return _progressValue;
         }
 
         private void setAnimationValue()
         {
-            if (AnimationInfo.Options.IsBack)
+            if (TweenInfo.IsBack)
             {
                 if (_nowTime <= _backTime)
                     _progressValue = _nowTime * 2;
                 else
-                    _progressValue = AnimationInfo.Options.Duration - ((_nowTime - _backTime) * 2);
+                    _progressValue = TweenInfo.Duration - ((_nowTime - _backTime) * 2);
             }
             else
             {
                 _progressValue = _nowTime;
             }
-            _setter.Invoke(AnimationInfo.GetProgress(getNowTime()));
+            _setter.Invoke(TweenInfo.Handler.GetProgress(getNowTime() , TweenInfo));
         }
 
         private void register() {
-            switch (AnimationInfo.Options.DriveType)
+            switch (TweenInfo.DriveType)
             {
                 case DriveEnum.Custom:
-                    if (AnimationInfo.Options.CustomDrive != null) {
-                        AnimationInfo.Options.CustomDrive.AddDriveAction(updateAnimation, AnimationInfo.Options.UpdaterTypeEnum);
+                    if (TweenInfo.CustomDrive != null) {
+                        TweenInfo.CustomDrive.AddDriveAction(updateAnimation, TweenInfo.UpdaterTypeEnum);
                     }
                     break;
                 case DriveEnum.Globa:
-                    MintDriveComponentSinge.Instance.AddDriveAction(updateAnimation, AnimationInfo.Options.UpdaterTypeEnum);
+                    MintDriveComponentSinge.Instance.AddDriveAction(updateAnimation, TweenInfo.UpdaterTypeEnum);
                     break;
             }
         }
         private void unregister() {
-            switch (AnimationInfo.Options.DriveType)
+            switch (TweenInfo.DriveType)
             {
                 case DriveEnum.Custom:
-                    if (AnimationInfo.Options.CustomDrive != null)
+                    if (TweenInfo.CustomDrive != null)
                     {
-                        AnimationInfo.Options.CustomDrive.RemoveDriveAction(updateAnimation , AnimationInfo.Options.UpdaterTypeEnum);
+                        TweenInfo.CustomDrive.RemoveDriveAction(updateAnimation , TweenInfo.UpdaterTypeEnum);
                     }
                     break;
                 case DriveEnum.Globa:
-                    MintDriveComponentSinge.Instance.RemoveDriveAction(updateAnimation, AnimationInfo.Options.UpdaterTypeEnum);
+                    MintDriveComponentSinge.Instance.RemoveDriveAction(updateAnimation, TweenInfo.UpdaterTypeEnum);
                     break;
             }
         }
@@ -141,7 +141,7 @@ namespace MintAnimation.Core
         /// <returns></returns>
         public float GetPlayerProgress()
         {
-            return _nowTime / this.AnimationInfo.Options.Duration;
+            return _nowTime / this.TweenInfo.Duration;
         }
 
         /// <summary>
@@ -150,41 +150,50 @@ namespace MintAnimation.Core
         /// <returns></returns>
         public float GetProgress()
         {
-            if (this.AnimationInfo.Options.IsCustomEase)
+            if (this.TweenInfo.IsCustomEase)
             {
-                return this.AnimationInfo.Options.TimeCurve.Evaluate(this.getNowTime());
+                return this.TweenInfo.TimeCurve.Evaluate(this.getNowTime());
             }
             else
             {
-                return MintEaseAction.GetEaseAction(this.AnimationInfo.Options.EaseType, this.getNowTime());
+                return MintEaseAction.GetEaseAction(this.TweenInfo.EaseType, this.getNowTime());
             }
         }
 
         public static MintTweener<float> Create(MintGetter<float> mintGetter, MintSetter<float> mintSetter, float endvalue, float duration)
         {
-            MintAnimationDataBase<float> mintAnimationInfo = new MintAnimtaionDataFloat();
-            mintAnimationInfo.Options = new MintAnimationOptions(){ EaseType = MintEaseMethod.Linear , AutoStartValue = true , Duration = duration};
-            mintAnimationInfo.StartValue = mintGetter.Invoke();
-            mintAnimationInfo.EndValue = endvalue;
-            var a = new MintTweener<float>(mintGetter, mintSetter, mintAnimationInfo);
+            var mintTweenerInfo = new MintTweenDataBase<float>()
+            {
+                EaseType = MintEaseMethod.Linear,
+                Duration = duration,
+                StartValue = mintGetter.Invoke(),
+                EndValue = endvalue
+            };
+            var a = new MintTweener<float>(mintGetter, mintSetter, mintTweenerInfo);
             return a;
         }
         public static MintTweener<Vector3> Create(MintGetter<Vector3> mintGetter, MintSetter<Vector3> mintSetter, Vector3 endvalue, float duration)
         {
-            MintAnimationDataBase<Vector3> mintAnimationInfo = new MintAnimationDataVector3();
-            mintAnimationInfo.Options = new MintAnimationOptions(){ EaseType = MintEaseMethod.Linear , AutoStartValue = true , Duration = duration};
-            mintAnimationInfo.StartValue = mintGetter.Invoke();
-            mintAnimationInfo.EndValue = endvalue;
-            var a = new MintTweener<Vector3>(mintGetter, mintSetter, mintAnimationInfo);
+            var mintTweenerInfo = new MintTweenDataBase<Vector3>()
+            {
+                EaseType = MintEaseMethod.Linear,
+                Duration = duration,
+                StartValue = mintGetter.Invoke(),
+                EndValue = endvalue
+            };
+            var a = new MintTweener<Vector3>(mintGetter, mintSetter, mintTweenerInfo);
             return a;
         }
         public static MintTweener<Color> Create(MintGetter<Color> mintGetter, MintSetter<Color> mintSetter, Color endvalue, float duration)
         {
-            MintAnimationDataBase<Color> mintAnimationInfo = new MintAnimationDataColor();
-            mintAnimationInfo.Options = new MintAnimationOptions(){ EaseType = MintEaseMethod.Linear , AutoStartValue = true , Duration = duration};
-            mintAnimationInfo.StartValue = mintGetter.Invoke();
-            mintAnimationInfo.EndValue = endvalue;
-            var a = new MintTweener<Color>(mintGetter, mintSetter, mintAnimationInfo);
+            var mintTweenerInfo = new MintTweenDataBase<Color>()
+            {
+                EaseType = MintEaseMethod.Linear,
+                Duration = duration,
+                StartValue = mintGetter.Invoke(),
+                EndValue = endvalue
+            };
+            var a = new MintTweener<Color>(mintGetter, mintSetter, mintTweenerInfo);
             return a;
         }
 
