@@ -68,6 +68,7 @@ namespace MintAnimation.Editor
             {
                 EditorGUILayout.PropertyField(this.BezierP1);
                 EditorGUILayout.PropertyField(this.BezierP2);
+                EditorGUILayout.HelpBox("注：P1,P2 为StartValue的相对坐标", MessageType.Info);
             }
             
             GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));

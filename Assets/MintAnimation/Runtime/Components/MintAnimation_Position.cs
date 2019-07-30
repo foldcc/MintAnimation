@@ -31,7 +31,7 @@ namespace MintAnimation
                 transform.position = value;
         }
 
-        protected override MintAnimationData<Vector3> getAnimationData()
+        protected override MintTweenDataBase<Vector3> getAnimationData()
         {
             return MintAnimationData;
         }

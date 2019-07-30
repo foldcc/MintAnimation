@@ -51,9 +51,11 @@ namespace MintAnimation.Editor
         protected virtual void Init()
         {
             MintAnimData = this.serializedObject.FindProperty("MintAnimationData");
+            IsAuto = this.serializedObject.FindProperty("IsAutoPlay");
+            AutoStartValue =  this.serializedObject.FindProperty("AutoStartValue");
+            CompleteAction =  this.serializedObject.FindProperty("CompleteAction");
+            
             Duration = this.MintAnimData.FindPropertyRelative("Duration");
-            IsAuto = this.MintAnimData.FindPropertyRelative("IsAutoPlay");
-            AutoStartValue =  this.MintAnimData.FindPropertyRelative("AutoStartValue");
             IsBack = this.MintAnimData.FindPropertyRelative("IsBack");
             IsLoop = this.MintAnimData.FindPropertyRelative("IsLoop");
             IsReversal = this.MintAnimData.FindPropertyRelative("IsReversal");
@@ -64,7 +66,6 @@ namespace MintAnimation.Editor
             DriveType =    this.MintAnimData.FindPropertyRelative("DriveType");
             UpdaterTypeEnum = this.MintAnimData.FindPropertyRelative("UpdaterTypeEnum");
             CustomDrive =     this.MintAnimData.FindPropertyRelative("CustomDrive");
-            CompleteAction =  this.MintAnimData.FindPropertyRelative("CompleteAction");
         }
 
         public override void OnInspectorGUI()

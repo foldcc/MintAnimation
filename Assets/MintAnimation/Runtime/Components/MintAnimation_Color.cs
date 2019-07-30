@@ -20,7 +20,7 @@ namespace MintAnimation
             this.mGrahic = this.gameObject.GetComponent<Graphic>();
             var m = this.gameObject.GetComponent<MeshRenderer>();
             if (m != null) this.mMaterail = m.material;
-            MintAnimationData.AutoStartValue = false;
+            AutoStartValue = false;
             base.init();
         }
 
@@ -42,7 +42,7 @@ namespace MintAnimation
                 this.mMaterail.color = rColor;
             }
         }
-        protected override MintAnimationData<Color> getAnimationData()
+        protected override MintTweenDataBase<Color> getAnimationData()
         {
             return MintAnimationData;
         }

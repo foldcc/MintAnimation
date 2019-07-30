@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace MintAnimation
 {
-	public abstract class MintAnimation_Base<T> : MonoBehaviour
+	public abstract class MintAnimation_Base<T> : MintAnimationComponent
     {
         protected MintTweener<T>         mMintTweener;
         private bool                     _isFristInit = true;
@@ -12,7 +12,7 @@ namespace MintAnimation
         private void OnEnable()
         {
             if (_isFristInit) init();
-            if (getAnimationData().IsAutoPlay)
+            if (IsAutoPlay)
             {
                 Play();
             }
@@ -25,7 +25,7 @@ namespace MintAnimation
 
         protected virtual void init()
         {
-            if (getAnimationData().AutoStartValue)
+            if (AutoStartValue)
             {
                 this.getAnimationData().StartValue = this.getter();
             }
@@ -34,10 +34,10 @@ namespace MintAnimation
             _isFristInit = false;
         }
 
-        public void OnCompleteAction()
+        protected override void OnCompleteAction()
         {
-            this.getAnimationData().OnComplete?.Invoke();
-            switch (getAnimationData().CompleteAction)
+            this.OnComplete?.Invoke();
+            switch (CompleteAction)
             {
                 case PlayEndAction.Destory:
                     Destroy(this.gameObject);
@@ -54,24 +54,31 @@ namespace MintAnimation
         protected virtual T getter(){return default;}
         protected virtual void setter(T value){ }
 
-        public void Play()
+        public override void Play()
         {
-//            this.mMintTweener.TweenInfo.StartValue = this.StartValue;
-//            this.mMintTweener.TweenInfo.EndValue = this.EndValue;
-//            this.mMintTweener.TweenInfo.SetOptions(this.MintAnimationOptions);
             this.mMintTweener.Play();
         }
 
-        public void Pause()
+        public override void Pause()
         {
             mMintTweener.Pause(!mMintTweener.IsPause);
         }
 
-        public void Stop()
+        public override void Stop()
         {
             mMintTweener.Stop();
         }
 
-        protected abstract MintAnimationData<T> getAnimationData();
+        public override MintTweenOptions GetOptions()
+        {
+            return getAnimationData();
+        }
+
+        public override void SetOptions(MintTweenOptions options)
+        {
+            this.getAnimationData().SetOptions(options);
+        }
+
+        protected abstract MintTweenDataBase<T> getAnimationData();
     }
 }

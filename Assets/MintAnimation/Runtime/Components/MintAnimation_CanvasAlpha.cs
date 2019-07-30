@@ -29,7 +29,7 @@ namespace MintAnimation {
             mCanvasGroup.alpha = value;
         }
 
-        protected override MintAnimationData<float> getAnimationData()
+        protected override MintTweenDataBase<float> getAnimationData()
         {
             return MintAnimationData;
         }

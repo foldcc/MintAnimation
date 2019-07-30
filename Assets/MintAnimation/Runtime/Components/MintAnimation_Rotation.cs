@@ -19,7 +19,7 @@ namespace MintAnimation
                 transform.rotation = Quaternion.Euler(value);
         }
 
-        protected override MintAnimationData<Vector3> getAnimationData()
+        protected override MintTweenDataBase<Vector3> getAnimationData()
         {
             return MintAnimationData;
         }
