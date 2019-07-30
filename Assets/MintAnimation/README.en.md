@@ -1,3 +1,0 @@
-# MintAnimation
-
-#### Description
