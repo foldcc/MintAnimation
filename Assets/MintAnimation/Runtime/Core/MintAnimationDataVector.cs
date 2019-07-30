@@ -3,7 +3,7 @@ using UnityEngine;
 namespace MintAnimation.Core
 {
     [System.Serializable]
-    public class MintAnimationDataVector : MintAnimationData<Vector3>
+    public class MintAnimationDataVector : MintTweenDataBase<Vector3>
     {
         public MintAnimationDataVector()
         {

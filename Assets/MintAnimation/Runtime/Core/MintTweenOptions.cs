@@ -18,7 +18,7 @@ namespace MintAnimation.Core
         
         
         public DriveEnum            DriveType = DriveEnum.Globa;
-        public UpdaterTypeEnum      UpdaterTypeEnum = UpdaterTypeEnum.Update;
+        public UpdaterTypeEnum      UpdaterTypeEnum = UpdaterTypeEnum.Coroutine;
         public MintDriveComponent   CustomDrive;
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 namespace MintAnimation.Core
 {
     [System.Serializable]
-    public class MintAnimationDataColor : MintAnimationData<Color>
+    public class MintAnimationDataColor : MintTweenDataBase<Color>
     {
         public MintAnimationDataColor()
         {

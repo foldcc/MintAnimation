@@ -1,7 +1,7 @@
 namespace MintAnimation.Core
 {
     [System.Serializable]
-    public class MintAnimationDataFloat : MintAnimationData<float>
+    public class MintAnimationDataFloat : MintTweenDataBase<float>
     {
         public MintAnimationDataFloat()
         {

@@ -34,19 +34,19 @@ namespace MintAnimation.Core
             set => _handler = value;
         }
 
-//        public void SetOptions(MintTweenOptions options)
-//        {
-//            Duration = options.Duration;
-//            IsBack = options.IsBack;
-//            IsLoop = options.IsLoop;
-//            IsReversal = options.IsReversal;
-//            LoopCount = options.LoopCount;
-//            IsCustomEase = options.IsCustomEase;
-//            EaseType = options.EaseType;
-//            TimeCurve = options.TimeCurve;
-//            DriveType = options.DriveType;
-//            UpdaterTypeEnum = options.UpdaterTypeEnum;
-//            CustomDrive = options.CustomDrive;
-//        }
+        public void SetOptions(MintTweenOptions options)
+        {
+            Duration = options.Duration;
+            IsBack = options.IsBack;
+            IsLoop = options.IsLoop;
+            IsReversal = options.IsReversal;
+            LoopCount = options.LoopCount;
+            IsCustomEase = options.IsCustomEase;
+            EaseType = options.EaseType;
+            TimeCurve = options.TimeCurve;
+            DriveType = options.DriveType;
+            UpdaterTypeEnum = options.UpdaterTypeEnum;
+            CustomDrive = options.CustomDrive;
+        }
     }
 }
