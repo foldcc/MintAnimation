@@ -12,11 +12,23 @@ namespace MintAnimation
         
         public bool IsLocal;
 
+        public bool IsLocalEndValue;
+        
         public bool IsBezier;
+        
 
         public Vector3 BezierP1;
         public Vector3 BezierP2;
-        
+
+        protected override void init()
+        {
+            base.init();
+            if (this.IsLocalEndValue)
+            {
+                this.MintAnimationData.EndValue += this.MintAnimationData.StartValue;
+            }
+        }
+
         protected override void setter(Vector3 value)
         {
             if (this.IsBezier)

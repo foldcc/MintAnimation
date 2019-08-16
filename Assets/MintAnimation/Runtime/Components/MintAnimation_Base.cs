@@ -27,7 +27,7 @@ namespace MintAnimation
         {
             if (AutoStartValue)
             {
-                this.getAnimationData().StartValue = this.getter();
+                this.getAnimationData().StartValue = this.getAutoStartValue();
             }
             mMintTweener = new MintTweener<T>(getter, setter, getAnimationData());
             mMintTweener.OnComplete += this.OnCompleteAction;
@@ -53,6 +53,7 @@ namespace MintAnimation
 
         protected virtual T getter(){return default;}
         protected virtual void setter(T value){ }
+        protected virtual T getAutoStartValue(){return this.getter();}
 
         public override void Play()
         {

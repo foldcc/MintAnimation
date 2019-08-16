@@ -7,6 +7,7 @@ namespace MintAnimation.Editor
     public class MintAnimation_EditorPosition : MintAnimation_EditorBase
     {
         private SerializedProperty IsLocalPosition;
+        private SerializedProperty IsLocalEndValue;
         private SerializedProperty StartPosition;
         private SerializedProperty EndPosition;
         
@@ -18,6 +19,7 @@ namespace MintAnimation.Editor
         {
             base.Init();
             IsLocalPosition = serializedObject.FindProperty("IsLocal");
+            IsLocalEndValue = serializedObject.FindProperty("IsLocalEndValue");
             StartPosition = MintAnimData.FindPropertyRelative("StartValue");
             EndPosition = MintAnimData.FindPropertyRelative("EndValue");
             
@@ -44,6 +46,7 @@ namespace MintAnimation.Editor
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(AutoStartValue);
+           
             IsLocalPosition.boolValue = GUILayout.Toolbar(IsLocalPosition.boolValue ? 0 : 1,
                 new string[2] { "Local", "World" },
                 new GUILayoutOption[] {
@@ -58,6 +61,7 @@ namespace MintAnimation.Editor
             {
                 EditorGUILayout.PropertyField(StartPosition , new GUIContent("StartPostion"));
             }
+            EditorGUILayout.PropertyField(IsLocalEndValue);
             EditorGUILayout.PropertyField(EndPosition, new GUIContent("EndPostion"));
            
             GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
