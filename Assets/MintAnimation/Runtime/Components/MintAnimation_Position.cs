@@ -12,7 +12,7 @@ namespace MintAnimation
         
         public bool IsLocal;
 
-        public bool IsLocalEndValue;
+        public bool IsRectPosition;
         
         public bool IsBezier;
         
@@ -20,12 +20,34 @@ namespace MintAnimation
         public Vector3 BezierP1;
         public Vector3 BezierP2;
 
-        protected override void init()
+        private Vector3 MyPosition
         {
-            base.init();
-            if (this.IsLocalEndValue)
+            get
             {
-                this.MintAnimationData.EndValue += this.MintAnimationData.StartValue;
+                if (this.IsRectPosition)
+                {
+                    return ((RectTransform) this.transform).anchoredPosition3D;
+                }
+
+                return this.IsLocal ? this.transform.localPosition : this.transform.position;
+            }
+
+            set
+            {
+                if (this.IsRectPosition)
+                {
+                    ((RectTransform) this.transform).anchoredPosition3D = value;
+                }
+
+                else if (this.IsLocal)
+                {
+                    this.transform.localPosition = value;
+                }
+
+                else
+                {
+                    this.transform.position = value;
+                }
             }
         }
 
@@ -36,24 +58,22 @@ namespace MintAnimation
                 Bezier_3ref(ref value, this.mMintTweener.TweenInfo.StartValue, this.mMintTweener.TweenInfo.StartValue + this.BezierP1, this.mMintTweener.TweenInfo.StartValue + this.BezierP2, this.mMintTweener.TweenInfo.EndValue,
                     this.mMintTweener.GetProgress());
             }
-            
-            if (IsLocal)
-                transform.localPosition = value;
-            else
-                transform.position = value;
+            this.MyPosition = value;
         }
 
         protected override MintTweenDataBase<Vector3> getAnimationData()
         {
-            return MintAnimationData;
+            return this.MintAnimationData;
         }
 
         protected override Vector3 getter()
         {
-            if (IsLocal)
-                return transform.localPosition;
-            else
-                return transform.position;
+            return this.MyPosition;
+        }
+
+        protected override Vector3 getAutoStartValue()
+        {
+            return this.MyPosition;
         }
 
         public static void Bezier_3ref(ref Vector3 outValue , Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)

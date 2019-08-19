@@ -9,11 +9,14 @@ namespace MintAnimation.Editor
         private SerializedProperty StartScale;
         private SerializedProperty EndScale;
 
+        private SerializedProperty IsSizeDelta;
+
         protected override void Init()
         {
             base.Init();
             StartScale =  MintAnimData.FindPropertyRelative("StartValue");
             EndScale =  MintAnimData.FindPropertyRelative("EndValue");
+            IsSizeDelta = serializedObject.FindProperty("IsSizeDelta");
         }
 
         protected override void DrawTitle()
@@ -33,6 +36,7 @@ namespace MintAnimation.Editor
             base.Draw();
 
             EditorGUILayout.PropertyField(AutoStartValue);
+            EditorGUILayout.PropertyField(this.IsSizeDelta);
             if (!AutoStartValue.boolValue)
             {
                 EditorGUILayout.PropertyField(StartScale, new GUIContent("StartPostion"));
