@@ -39,9 +39,9 @@ namespace MintAnimation.Editor
             EditorGUILayout.PropertyField(this.IsSizeDelta);
             if (!AutoStartValue.boolValue)
             {
-                EditorGUILayout.PropertyField(StartScale, new GUIContent("StartPostion"));
+                EditorGUILayout.PropertyField(StartScale, new GUIContent("StartScale"));
             }
-            EditorGUILayout.PropertyField(EndScale, new GUIContent("EndPostion"));
+            EditorGUILayout.PropertyField(EndScale, new GUIContent("EndScale"));
 
             GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(0.5f));
 

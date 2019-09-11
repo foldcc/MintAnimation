@@ -14,7 +14,7 @@ namespace MintAnimation.Core
                 value = MintEaseAction.GetEaseAction(dataBase.EaseType, nowTime / dataBase.Duration) * (dataBase.EndValue - dataBase.StartValue) + dataBase.StartValue;
             }
             else {
-                value = dataBase.TimeCurve.Evaluate(nowTime) * (dataBase.EndValue - dataBase.StartValue) + dataBase.EndValue;
+                value = dataBase.TimeCurve.Evaluate(nowTime / dataBase.Duration) * (dataBase.EndValue - dataBase.StartValue) + dataBase.StartValue;
             }
             return value;
         }
