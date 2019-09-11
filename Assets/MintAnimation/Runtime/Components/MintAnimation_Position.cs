@@ -56,7 +56,7 @@ namespace MintAnimation
             if (this.IsBezier)
             {
                 Bezier_3ref(ref value, this.mMintTweener.TweenInfo.StartValue, this.mMintTweener.TweenInfo.StartValue + this.BezierP1, this.mMintTweener.TweenInfo.StartValue + this.BezierP2, this.mMintTweener.TweenInfo.EndValue,
-                    this.mMintTweener.GetProgress());
+                    this.mMintTweener.GetPlayerProgress());
             }
             this.MyPosition = value;
         }
